@@ -5,11 +5,13 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.media.VolumeProviderCompat;
@@ -20,7 +22,7 @@ public class MyService extends Service {
     private MediaSessionCompat mediaSession;
     public boolean a=true;
     private int count = 0;
-
+    private int count1 = 0;
 
     public MyService() {
     }
@@ -50,8 +52,9 @@ public class MyService extends Service {
             @Override
             public void run() {
 
-                while (true) {
+                while (a==true) {
                     try {
+
                         VolumeProviderCompat myVolumeProvider =
                                 new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE,100,50) {
                                     @Override
@@ -59,9 +62,15 @@ public class MyService extends Service {
                                         if(direction==1||direction==-1){
                                             count++;
                                             Log.i("lol",Integer.toString(count));
-                                            if(count==Integer.parseInt(prefs.getString("volume",null))){
+                                            if(count==20*Integer.parseInt(prefs.getString("volume",null))){
                                                 count=0;
-                                                EmailSend();
+                                                if(count1==10){
+                                                    a=false;
+                                                }else {
+                                                    sendEmail();
+                                                    ++count1;
+                                                }
+
                                             }
 
                                         }
@@ -106,7 +115,8 @@ public class MyService extends Service {
             String msg=message+"\n"+prefs.getString("location",null);
             SendMail sm = new SendMail(this, email, subject, msg);
             sm.execute();
-            Toast.makeText(getApplicationContext(),"E-mail with geo has been sent",Toast.LENGTH_SHORT).show();
+            vibration();
+
         }else{
             stopService(new Intent(this, GPS_Service.class));
             String email =prefs.getString("mail",null).trim();
@@ -115,11 +125,29 @@ public class MyService extends Service {
 
             SendMail sm = new SendMail(this, email, subject, message);
             sm.execute();
-            Toast.makeText(getApplicationContext(),"E-mail without geo has been sent",Toast.LENGTH_SHORT).show();
+            vibration2();
 
         }
 
 
+    }
+    public void vibration2(){
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            v.vibrate(200);
+        }
+    }
+    public void vibration(){
+        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+        } else {
+            v.vibrate(500);
+        }
     }
     public  void thread(){
         final SharedPreferences prefs = this.getSharedPreferences(
@@ -129,7 +157,7 @@ public class MyService extends Service {
             public void run() {
                 while (true) {
                     try {
-                        TimeUnit.MILLISECONDS.sleep(Integer.parseInt(prefs.getString("volume",null))*1000);
+                        TimeUnit.MILLISECONDS.sleep(Integer.parseInt(prefs.getString("volume",null))*2000);
                         count=0;
                     } catch (Exception e) {
                     }
@@ -143,9 +171,9 @@ public class MyService extends Service {
             public void run() {
                 while (a==true) {
                     try {
-                        //TimeUnit.MILLISECONDS.sleep(100000);
+                        TimeUnit.MILLISECONDS.sleep(20000);
                         sendEmail();
-                        sleep();
+
 
                     } catch (Exception e) {
                     }
@@ -153,14 +181,8 @@ public class MyService extends Service {
             }
         }).start();
     }
-    public void sleep(){
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
     }
 
 
 
-}

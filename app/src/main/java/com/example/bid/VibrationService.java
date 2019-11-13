@@ -38,15 +38,24 @@ public class VibrationService extends Service implements ShakeDetector.Listener 
         vibration();
         Log.i("l","dude, lol, this shit  workkk");
     }
+   /* public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
 
+    }*/
     @Override
     public void onCreate() {
         super.onCreate();
         on();
     }
-    @Override
+   /* @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         startService(new Intent(this,VibrationService.class));
+    }*/
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+       // startService(new Intent(this,VibrationService.class));
     }
 }

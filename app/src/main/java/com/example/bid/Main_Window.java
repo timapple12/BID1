@@ -54,9 +54,11 @@ public class Main_Window extends AppCompatActivity {
 
     }
     public void enable_btn(){
+        if(toggleButton.isChecked()==true){
+            onTogglePressOn();
+        }
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-
                 MyService m=new MyService();
                 if(isChecked==true){
                     m.a=true;
