@@ -42,30 +42,44 @@ public class Main_Window extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final MyService m=new MyService();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__window);
         SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
+
         toggleButton=(ToggleButton)findViewById(R.id.toggleButton);
-        toggleButton.setChecked(prefs.getBoolean("service",true));
-        if(!runtime_permissions())
+
+        if(!runtime_permissions()) {
             enable_btn();
+        }
 
     }
     public void enable_btn(){
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        toggleButton.setChecked(prefs.getBoolean("service",true));
+        final SharedPreferences.Editor editor = prefs.edit();
+       // toggleButton.setChecked(prefs.getBoolean("toggle",true));
         if(toggleButton.isChecked()==true){
             onTogglePressOn();
         }
+
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+
                 MyService m=new MyService();
                 if(isChecked==true){
                     m.a=true;
+                    editor.putBoolean("toggle",isChecked);
+                    editor.apply();
                     onTogglePressOn();
+
 
                 }else if(isChecked==false){
                     onTogglePressOff();
+                    editor.putBoolean("toggle",isChecked);
+                    editor.apply();
                     m.a=false;
                 }
 
@@ -77,6 +91,8 @@ public class Main_Window extends AppCompatActivity {
                 "com.example.bid", Context.MODE_PRIVATE);
         startService(new Intent(this, VibrationService.class));
         startService(new Intent(this, MyService.class));
+        Intent intent = new Intent(this, Foreground.class);
+        startService(intent);
         if(prefs.getBoolean("r",true)==true){
             startService(new Intent(this, GPS_Service.class));
         }

@@ -52,25 +52,22 @@ public class MyService extends Service {
             @Override
             public void run() {
 
-                while (a==true) {
+                while (true) {
                     try {
 
                         VolumeProviderCompat myVolumeProvider =
-                                new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE,100,50) {
+                                new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE,0,0) {
                                     @Override
                                     public void onAdjustVolume(int direction) {
+                                        if(a==false){
+                                            return;
+                                        }
                                         if(direction==1||direction==-1){
                                             count++;
                                             Log.i("lol",Integer.toString(count));
-                                            if(count==20*Integer.parseInt(prefs.getString("volume",null))){
+                                            if(count==Integer.parseInt(prefs.getString("volume",null))){
                                                 count=0;
-                                                if(count1==10){
-                                                    a=false;
-                                                }else {
-                                                    sendEmail();
-                                                    ++count1;
-                                                }
-
+                                                sendEmail();
                                             }
 
                                         }
@@ -79,12 +76,13 @@ public class MyService extends Service {
 
                         mediaSession.setPlaybackToRemote(myVolumeProvider);
                         mediaSession.setActive(a);
-                        editor.putBoolean("service",a);
-                        editor.apply();
+
                         TimeUnit.MILLISECONDS.sleep(500);
 
                     } catch (Exception e) {
                     }
+                    editor.putBoolean("service",a);
+                    editor.apply();
                 }
             }
         }).start();
@@ -102,6 +100,7 @@ public class MyService extends Service {
         super.onDestroy();
         Log.i("lol","stop service");
         a=false;
+
     }
     public void sendEmail(){
         final SharedPreferences prefs = this.getSharedPreferences(
@@ -157,7 +156,7 @@ public class MyService extends Service {
             public void run() {
                 while (true) {
                     try {
-                        TimeUnit.MILLISECONDS.sleep(Integer.parseInt(prefs.getString("volume",null))*2000);
+                        TimeUnit.MILLISECONDS.sleep(Integer.parseInt(prefs.getString("volume",null))*4000);
                         count=0;
                     } catch (Exception e) {
                     }
