@@ -61,7 +61,7 @@ public class Main_Window extends AppCompatActivity {
                 if(isChecked==true){
                     m.a=true;
                     onTogglePressOn();
-                    gps_start();
+
                 }else if(isChecked==false){
                     onTogglePressOff();
                     m.a=false;
@@ -71,13 +71,16 @@ public class Main_Window extends AppCompatActivity {
         });
     }
     public void onTogglePressOn(){
-
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        startService(new Intent(this, VibrationService.class));
         startService(new Intent(this, MyService.class));
-        //startService(new Intent(this, GPS_Service.class));
+        if(prefs.getBoolean("r",true)==true){
+            startService(new Intent(this, GPS_Service.class));
+        }
+
     }
-    public void gps_start(){
-        startService(new Intent(this, GPS_Service.class));
-    }
+
     public void onTogglePressOff(){
         Intent myService = new Intent(Main_Window.this, MyService.class);
         stopService(myService);

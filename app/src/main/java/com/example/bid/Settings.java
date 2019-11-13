@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -47,7 +46,7 @@ public class Settings extends AppCompatActivity {
         if(r.isChecked()==true){
 
         }
-        r.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+       /* r.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
 
                 if(isChecked==true){
@@ -62,7 +61,7 @@ public class Settings extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
         mail.setText(prefs.getString("mail",null));
         mail_text.setText(prefs.getString("mail_text",null));
@@ -73,9 +72,6 @@ public class Settings extends AppCompatActivity {
                 }
                 public void onSwipeRight() {
 
-
-
-
                     Log.i("Settings","right");
                     mailStr=mail.getText().toString();
                     mailStr_text=mail_text.getText().toString();
@@ -83,6 +79,8 @@ public class Settings extends AppCompatActivity {
                     editor.putString("mail_text",mailStr_text);
                     editor.putString("shake",countShake.getText().toString());
                     editor.putString("volume",volumeAct.getText().toString());
+                    editor.putBoolean("r",r.isChecked());
+                    editor.putBoolean("r1",r1.isChecked());
                     editor.apply();
                     if(countShake.getText().toString()==null|volumeAct.getText().toString()==null
                             |mail_text.getText().toString()==null|mail.getText().toString()==null){
