@@ -25,7 +25,6 @@ public class VibrationService extends Service implements ShakeDetector.Listener 
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
         on();
-
         return START_STICKY;
 
     }

@@ -18,12 +18,14 @@ public class Settings extends AppCompatActivity {
     EditText countShake;
     EditText powerAct;
     EditText volumeAct;
+    EditText textnull;
     String mailStr;
     String mailStr_text;
     RadioButton r;
     RadioButton r1;
     View v;
-    private String shake;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final SharedPreferences prefs = this.getSharedPreferences(
@@ -82,8 +84,8 @@ public class Settings extends AppCompatActivity {
                     editor.putBoolean("r",r.isChecked());
                     editor.putBoolean("r1",r1.isChecked());
                     editor.apply();
-                    if(countShake.getText().toString()==null|volumeAct.getText().toString()==null
-                            |mail_text.getText().toString()==null|mail.getText().toString()==null){
+                    if(countShake.getText().toString().trim()==null||volumeAct.getText().toString().trim()==null
+                            ||mail_text.getText().toString().trim()==null||mail.getText().toString().trim()==null){
                         Toast.makeText(getApplicationContext(),"Fill in the blank fields",Toast.LENGTH_SHORT).show();
                     }else{
                         openActivity2();
@@ -116,5 +118,6 @@ public class Settings extends AppCompatActivity {
     private void initializeView(){
         v=(View)findViewById(R.id.view);
     }
+
 
 }

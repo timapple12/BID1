@@ -17,19 +17,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = prefs.edit();
+
 
         first_opening=prefs.getBoolean("firstOpening",true);
         if(first_opening==true)
         {
             setContentView(R.layout.activity_main);
-            first_opening=false;
-            editor.putBoolean("firstOpening",first_opening);
-            editor.apply();
-        }else
-        {
-            setContentView(R.layout.activity_main__window);
         }
+        if (first_opening == false) {
+            Intent intent = new Intent(this, Main_Window.class);
+            startActivity(intent);
+        }
+
 
     }
     public void onClick(View v){

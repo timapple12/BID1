@@ -83,6 +83,7 @@ public class Main_Window extends AppCompatActivity {
 
 
                 }else if(isChecked==false){
+                    m.stopSelf();
                     onTogglePressOff();
                     editor.putBoolean("toggle",isChecked);
                     editor.apply();
@@ -98,8 +99,6 @@ public class Main_Window extends AppCompatActivity {
                 "com.example.bid", Context.MODE_PRIVATE);
         startService(new Intent(this, VibrationService.class));
         startService(new Intent(this, MyService.class));
-
-
         if(prefs.getBoolean("r",true)==true){
             startService(new Intent(this, GPS_Service.class));
         }
@@ -107,8 +106,11 @@ public class Main_Window extends AppCompatActivity {
     }
 
     public void onTogglePressOff(){
+        MyService m =new MyService();
+        m.stopSelf();
         Intent myService = new Intent(Main_Window.this, MyService.class);
         stopService(myService);
+
        stopService(new Intent(this, GPS_Service.class));
     }
    public void onButton_Settings(View v){

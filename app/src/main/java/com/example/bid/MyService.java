@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MyService extends Service {
     private MediaSessionCompat mediaSession;
-    public boolean a=true;
+    public static boolean a=true;
     private int count = 0;
     private int count1 = 0;
 
@@ -39,6 +39,9 @@ public class MyService extends Service {
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         startService(new Intent(this,MyService.class));
+    }
+    public static void realStopService(){
+        a=false;
     }
     public void doing(){
         final SharedPreferences prefs = this.getSharedPreferences(
@@ -102,10 +105,14 @@ public class MyService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i("lol","stop service");
-        a=false;
+        //a=false;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(new Intent(this, MyService.class));
         }
+        Intent broadcastIntent = new Intent(this, SensorRestarterBroadcastReceiver.class);
+
+        sendBroadcast(broadcastIntent);
+
 
     }
     public void sendEmail(){
