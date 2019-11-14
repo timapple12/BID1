@@ -25,12 +25,15 @@ public class MyService extends Service {
     private int count1 = 0;
 
     public MyService() {
+        count1++;
+        count1--;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         doing();
+
     }
     @Override
     public void onTaskRemoved(Intent rootIntent) {
@@ -100,6 +103,9 @@ public class MyService extends Service {
         super.onDestroy();
         Log.i("lol","stop service");
         a=false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, MyService.class));
+        }
 
     }
     public void sendEmail(){
@@ -125,10 +131,7 @@ public class MyService extends Service {
             SendMail sm = new SendMail(this, email, subject, message);
             sm.execute();
             vibration2();
-
         }
-
-
     }
     public void vibration2(){
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
@@ -164,24 +167,7 @@ public class MyService extends Service {
             }
         }).start();
     }
-    protected void EmailSend(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (a==true) {
-                    try {
-                        TimeUnit.MILLISECONDS.sleep(20000);
-                        sendEmail();
-
-
-                    } catch (Exception e) {
-                    }
-                }
-            }
-        }).start();
-    }
-
-    }
+}
 
 
 

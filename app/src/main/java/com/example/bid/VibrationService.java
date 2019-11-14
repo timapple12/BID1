@@ -13,7 +13,21 @@ import android.util.Log;
 import com.squareup.seismic.ShakeDetector;
 
 public class VibrationService extends Service implements ShakeDetector.Listener {
+    int count1 = 0;
     public VibrationService() {
+        super();
+        count1++;
+        count1--;
+
+
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        on();
+
+        return START_STICKY;
+
     }
 
     @Override
@@ -29,33 +43,23 @@ public class VibrationService extends Service implements ShakeDetector.Listener 
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
+            v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
-            v.vibrate(200);
+            v.vibrate(300);
         }
     }
     public void hearShake() {
         vibration();
         Log.i("l","dude, lol, this shit  workkk");
-    }
-   /* public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
 
-    }*/
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        on();
     }
-   /* @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        startService(new Intent(this,VibrationService.class));
-    }*/
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Intent broadcastIntent = new Intent(this, SensorRestarterBroadcastReceiver.class);
+
+        sendBroadcast(broadcastIntent);
        // startService(new Intent(this,VibrationService.class));
     }
 }

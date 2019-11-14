@@ -14,10 +14,13 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class Main_Window extends AppCompatActivity {
+
+
     ToggleButton toggleButton;
     private BroadcastReceiver broadcastReceiver;
     @Override
@@ -40,28 +43,31 @@ public class Main_Window extends AppCompatActivity {
         registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main__window);
-        SharedPreferences prefs = this.getSharedPreferences(
-                "com.example.bid", Context.MODE_PRIVATE);
+
+                setContentView(R.layout.activity_main__window);
 
         toggleButton=(ToggleButton)findViewById(R.id.toggleButton);
-
-        if(!runtime_permissions()) {
+        if(!runtime_permissions())
+        {
             enable_btn();
         }
 
     }
-    public void enable_btn(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void enable_btn()
+    {
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         toggleButton.setChecked(prefs.getBoolean("service",true));
         final SharedPreferences.Editor editor = prefs.edit();
        // toggleButton.setChecked(prefs.getBoolean("toggle",true));
-        if(toggleButton.isChecked()==true){
+        if(toggleButton.isChecked()==true)
+        {
             onTogglePressOn();
         }
 
@@ -86,13 +92,14 @@ public class Main_Window extends AppCompatActivity {
             }
         });
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onTogglePressOn(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         startService(new Intent(this, VibrationService.class));
         startService(new Intent(this, MyService.class));
-        Intent intent = new Intent(this, Foreground.class);
-        startService(intent);
+
+
         if(prefs.getBoolean("r",true)==true){
             startService(new Intent(this, GPS_Service.class));
         }
@@ -126,6 +133,7 @@ public class Main_Window extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
