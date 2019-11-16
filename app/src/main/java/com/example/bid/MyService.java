@@ -1,12 +1,15 @@
 package com.example.bid;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -35,11 +38,7 @@ public class MyService extends Service {
         doing();
 
     }
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        startService(new Intent(this,MyService.class));
-    }
+
     public static void realStopService(){
         a=false;
     }
@@ -100,19 +99,25 @@ public class MyService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        Intent restartServiceIntent = new Intent(getApplicationContext(), this.getClass());
+        restartServiceIntent.setPackage(getPackageName());
 
+        PendingIntent restartServicePendingIntent = PendingIntent.getService(getApplicationContext(), 1, restartServiceIntent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
+        alarmService.set(
+                AlarmManager.ELAPSED_REALTIME,
+                SystemClock.elapsedRealtime() + 1000,
+                restartServicePendingIntent);
+
+        super.onTaskRemoved(rootIntent);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.i("lol","stop service");
-        //a=false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(new Intent(this, MyService.class));
-        }
-        Intent broadcastIntent = new Intent(this, SensorRestarterBroadcastReceiver.class);
-
-        sendBroadcast(broadcastIntent);
-
+        a=false;
 
     }
     public void sendEmail(){
@@ -124,7 +129,12 @@ public class MyService extends Service {
             String email =prefs.getString("mail",null).trim();
             String subject = "Your child in danger".trim();
             String message = prefs.getString("mail_text",null).trim();
-            String msg=message+"\n"+prefs.getString("location",null);
+            String msg;
+            msg=message+"\n"+"coordinates: "+prefs.getString("latitude",null)+"  "
+                    +prefs.getString("longitude",null)
+                    +"\n"+"https://www.google.com/maps/place/"+prefs.getString("latitude",null)
+                    +"N"+ prefs.getString("longitude",null)
+                    +"E";
             SendMail sm = new SendMail(this, email, subject, msg);
             sm.execute();
             vibration();
@@ -173,6 +183,13 @@ public class MyService extends Service {
                 }
             }
         }).start();
+    }
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+
+        return START_STICKY;
+
     }
 }
 

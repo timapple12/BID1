@@ -48,6 +48,9 @@ public class Settings extends AppCompatActivity {
         if(r.isChecked()==true){
 
         }
+        if(r1.isChecked()==true){
+            stopService(new Intent(this, GPS_Service.class));
+        }
        /* r.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
 

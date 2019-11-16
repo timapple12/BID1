@@ -14,6 +14,7 @@ import com.squareup.seismic.ShakeDetector;
 
 public class VibrationService extends Service implements ShakeDetector.Listener {
     int count1 = 0;
+    private boolean a=true;
     public VibrationService() {
         super();
         count1++;
@@ -45,6 +46,10 @@ public class VibrationService extends Service implements ShakeDetector.Listener 
             v.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
             v.vibrate(300);
+            if(a==false)
+            {
+                v.cancel();
+            }
         }
     }
     public void hearShake() {
@@ -56,9 +61,12 @@ public class VibrationService extends Service implements ShakeDetector.Listener 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.i("It","it's pretty cool ");
         Intent broadcastIntent = new Intent(this, SensorRestarterBroadcastReceiver.class);
-
         sendBroadcast(broadcastIntent);
+        a=false;
+        stopSelf();
+        Log.i("It","service stopped in five's seconds before planing of family holiday present, is's all was a ");
        // startService(new Intent(this,VibrationService.class));
     }
 }

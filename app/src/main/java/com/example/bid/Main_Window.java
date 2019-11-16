@@ -9,8 +9,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -34,7 +36,8 @@ public class Main_Window extends AppCompatActivity {
                 @Override
                 public void onReceive(Context context, Intent intent) {
 
-                    editor.putString("location",""+intent.getExtras().get("coordinates"));
+                    editor.putString("latitude",""+intent.getExtras().get("latitude"));
+                    editor.putString("longitude",""+intent.getExtras().get("longitude"));
                     editor.apply();
 
                 }
@@ -50,7 +53,10 @@ public class Main_Window extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
                 setContentView(R.layout.activity_main__window);
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 10);
+        }
         toggleButton=(ToggleButton)findViewById(R.id.toggleButton);
         if(!runtime_permissions())
         {
@@ -83,7 +89,7 @@ public class Main_Window extends AppCompatActivity {
 
 
                 }else if(isChecked==false){
-                    m.stopSelf();
+                   // m.stopSelf();
                     onTogglePressOff();
                     editor.putBoolean("toggle",isChecked);
                     editor.apply();
@@ -107,10 +113,10 @@ public class Main_Window extends AppCompatActivity {
 
     public void onTogglePressOff(){
         MyService m =new MyService();
-        m.stopSelf();
+      //  m.stopSelf();
         Intent myService = new Intent(Main_Window.this, MyService.class);
         stopService(myService);
-
+        stopService(new Intent(this, VibrationService.class));
        stopService(new Intent(this, GPS_Service.class));
     }
    public void onButton_Settings(View v){
@@ -147,6 +153,18 @@ public class Main_Window extends AppCompatActivity {
             }
         }
     }
+    public void sendSMS(String phoneNo, String msg) {                                  //SMS sending
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, msg, null, null);
+            Toast.makeText(getApplicationContext(), "Message Sent",
+                    Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(),ex.getMessage().toString(),
+                    Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
     }
+}
 
 
