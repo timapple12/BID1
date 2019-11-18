@@ -9,10 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -53,10 +51,7 @@ public class Main_Window extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
                 setContentView(R.layout.activity_main__window);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            requestPermissions(new String[]{Manifest.permission.SEND_SMS}, 10);
-        }
+
         toggleButton=(ToggleButton)findViewById(R.id.toggleButton);
         if(!runtime_permissions())
         {
@@ -123,18 +118,11 @@ public class Main_Window extends AppCompatActivity {
         Intent intent = new Intent(this,Settings.class);
         startActivity(intent);
        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-       //overridePendingTransition(R.anim.slide_out, R.anim.slide_up);
-      // overridePendingTransition(R.anim.slide_up,  R.anim.no_animation);
+
 
 
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(broadcastReceiver != null){
-            unregisterReceiver(broadcastReceiver);
-        }
-    }
+
     private boolean runtime_permissions() {
         if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
@@ -158,18 +146,7 @@ public class Main_Window extends AppCompatActivity {
             }
         }
     }
-    public void sendSMS(String phoneNo, String msg) {                                  //SMS sending
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(phoneNo, null, msg, null, null);
-            Toast.makeText(getApplicationContext(), "Message Sent",
-                    Toast.LENGTH_LONG).show();
-        } catch (Exception ex) {
-            Toast.makeText(getApplicationContext(),ex.getMessage().toString(),
-                    Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
-        }
-    }
+
 }
 
 

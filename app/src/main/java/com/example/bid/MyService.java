@@ -11,6 +11,7 @@ import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -149,6 +150,7 @@ public class MyService extends Service {
             
             if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
                 sendEmail();
+                sendSMS(prefs1.getString("numb",null),prefs1.getString("mail_text",null));
                 handlerList.postDelayed(sendEmail_inThread,
                         Integer.parseInt(prefs1.getString("sendtime", null)) * 1000);
             }else{
@@ -188,5 +190,17 @@ public class MyService extends Service {
                 "com.example.bid", Context.MODE_PRIVATE);
         doing();
         return START_STICKY;
+    }
+    public void sendSMS(String phoneNo, String msg) {                                  //SMS sending
+        try {
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNo, null, msg, null, null);
+            Toast.makeText(getApplicationContext(), "Message Sent",
+                    Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(getApplicationContext(),ex.getMessage().toString(),
+                    Toast.LENGTH_LONG).show();
+            ex.printStackTrace();
+        }
     }
 }

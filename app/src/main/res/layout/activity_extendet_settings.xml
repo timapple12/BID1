@@ -11,30 +11,30 @@
         android:layout_width="320dp"
         android:layout_height="41dp"
         android:layout_gravity="start"
+        android:background="@drawable/fileds"
         android:layoutDirection="rtl"
         android:text="Hold on Volumedown SMS"
         android:textAlignment="textStart"
         android:textSize="24sp"
-        android:background="@drawable/fileds"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.11" />
+        app:layout_constraintVertical_bias="0.04" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="235dp"
         android:layout_height="40dp"
+        android:background="@drawable/fileds"
         android:text="Interval between SMS"
         android:textSize="24sp"
-        android:background="@drawable/fileds"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.278" />
+        app:layout_constraintVertical_bias="0.202" />
 
     <EditText
         android:id="@+id/editText"
@@ -46,10 +46,10 @@
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.358"
+        app:layout_constraintHorizontal_bias="0.355"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.363" />
+        app:layout_constraintVertical_bias="0.287" />
 
     <TextView
         android:id="@+id/textView2"
@@ -62,7 +62,7 @@
         app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.372" />
+        app:layout_constraintVertical_bias="0.292" />
 
     <EditText
         android:id="@+id/editText2"
@@ -74,7 +74,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.195" />
+        app:layout_constraintVertical_bias="0.115" />
 
     <View
         android:id="@+id/view2"

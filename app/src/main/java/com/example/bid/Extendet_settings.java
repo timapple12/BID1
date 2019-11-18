@@ -25,17 +25,18 @@ public class Extendet_settings extends AppCompatActivity {
         timeBetweenSending.setText(prefs.getString("sendtime",null));
         v2=(View)findViewById(R.id.view2);
         final Intent intent = new Intent(this, Settings.class);
-
-
-
-
             v2.setOnTouchListener(new OnSwipeTouchListener(Extendet_settings.this) {
                 public void onSwipeRight() {
+                    if(timeBetweenSending.getText().toString().trim().length()==0){
+                        Toast.makeText(getApplicationContext(),"Fill the edittext",Toast.LENGTH_SHORT).show();
+                    }else
                     if(Integer.parseInt(timeBetweenSending.getText().toString())>=5) {
+
                     Log.i("lol",timeBetweenSending.getText().toString());
                     System.out.println("haahahahah");
                     System.out.println(timeBetweenSending.getText().toString());
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);
                     editor.putString("sendtime", timeBetweenSending.getText().toString());
                     editor.apply();
                     }else{
