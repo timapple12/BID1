@@ -25,7 +25,9 @@
             android:name=".VibrationService"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETE" />
+            android:stopWithTask="false"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETE"
+            />
 
         <receiver
             android:name=".SensorRestarterBroadcastReceiver"
@@ -40,7 +42,10 @@
         <service
             android:name=".MyService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:stopWithTask="false"
+
+           />
 
         <activity android:name=".Extendet_settings" />
         <activity android:name=".Main_Window" />

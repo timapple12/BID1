@@ -28,6 +28,8 @@ public class Settings extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();
@@ -113,10 +115,12 @@ public class Settings extends AppCompatActivity {
     public void openActivity2() {
         Intent intent = new Intent(this,Main_Window.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
     public void openExt() {
         Intent intent = new Intent(this,Extendet_settings.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
     private void initializeView(){
         v=(View)findViewById(R.id.view);

@@ -1,20 +1,18 @@
 package com.example.bid;
 
-
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.media.VolumeProviderCompat;
@@ -25,23 +23,15 @@ public class MyService extends Service {
     private MediaSessionCompat mediaSession;
     public static boolean a=true;
     private int count = 0;
-    private int count1 = 0;
-
+    private Handler handlerList=new Handler();
+    private SharedPreferences prefs1;
     public MyService() {
-        count1++;
-        count1--;
     }
-
-    @Override
+   @Override
     public void onCreate() {
         super.onCreate();
-        doing();
-
     }
 
-    public static void realStopService(){
-        a=false;
-    }
     public void doing(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
@@ -72,7 +62,8 @@ public class MyService extends Service {
                                             Log.i("lol",Integer.toString(count));
                                             if(count==Integer.parseInt(prefs.getString("volume",null))){
                                                 count=0;
-                                                sendEmail();
+
+                                                handlerList.postDelayed(sendEmail_inThread, 1);
                                             }
 
                                         }
@@ -99,25 +90,14 @@ public class MyService extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        Intent restartServiceIntent = new Intent(getApplicationContext(), this.getClass());
-        restartServiceIntent.setPackage(getPackageName());
 
-        PendingIntent restartServicePendingIntent = PendingIntent.getService(getApplicationContext(), 1, restartServiceIntent, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager alarmService = (AlarmManager) getApplicationContext().getSystemService(Context.ALARM_SERVICE);
-        alarmService.set(
-                AlarmManager.ELAPSED_REALTIME,
-                SystemClock.elapsedRealtime() + 1000,
-                restartServicePendingIntent);
 
-        super.onTaskRemoved(rootIntent);
-    }
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.i("lol","stop service");
         a=false;
+        handlerList.removeCallbacks(sendEmail_inThread);
 
     }
     public void sendEmail(){
@@ -152,13 +132,30 @@ public class MyService extends Service {
     }
     public void vibration2(){
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
             v.vibrate(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE));
         } else {
             v.vibrate(200);
         }
     }
+
+    //  Написати логіку збереження даних з edittext час між відсиланням повідомлення
+    private Runnable sendEmail_inThread=new Runnable() {
+
+
+        @Override
+        public void run() {
+            
+            if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
+                sendEmail();
+                handlerList.postDelayed(sendEmail_inThread,
+                        Integer.parseInt(prefs1.getString("sendtime", null)) * 1000);
+            }else{
+                Toast.makeText(getApplicationContext(),"Enter time of resending e-mail above 5",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
     public void vibration(){
         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -186,12 +183,10 @@ public class MyService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-
+       // super.onStartCommand(intent, flags, startId);
+        prefs1 = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        doing();
         return START_STICKY;
-
     }
 }
-
-
-

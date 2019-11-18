@@ -122,6 +122,11 @@ public class Main_Window extends AppCompatActivity {
    public void onButton_Settings(View v){
         Intent intent = new Intent(this,Settings.class);
         startActivity(intent);
+       overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+       //overridePendingTransition(R.anim.slide_out, R.anim.slide_up);
+      // overridePendingTransition(R.anim.slide_up,  R.anim.no_animation);
+
+
     }
     @Override
     protected void onDestroy() {
