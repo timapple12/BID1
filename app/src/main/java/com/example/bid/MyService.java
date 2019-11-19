@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,6 +19,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.media.VolumeProviderCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
 import java.util.concurrent.TimeUnit;
 
 public class MyService extends Service {
@@ -25,6 +30,7 @@ public class MyService extends Service {
     public static boolean a=true;
     private int count = 0;
     private Handler handlerList=new Handler();
+    FusedLocationProviderClient fusedLocationProviderClient;
     private SharedPreferences prefs1;
     public MyService() {
     }
@@ -101,6 +107,17 @@ public class MyService extends Service {
         handlerList.removeCallbacks(sendEmail_inThread);
 
     }
+    public void lat(){
+        Task<Location> task = fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+
+            @Override
+            public void onSuccess(Location location) {
+
+
+            }
+        });
+    }
     public void sendEmail(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
@@ -109,14 +126,31 @@ public class MyService extends Service {
         if(prefs.getBoolean("r",true)==true){
             String email =prefs.getString("mail",null).trim();
             String subject = "Your child in danger".trim();
-            String message = prefs.getString("mail_text",null).trim();
-            String msg;
-            msg=message+"\n"+"coordinates: "+prefs.getString("latitude",null)+"  "
-                    +prefs.getString("longitude",null)
-                    +"\n"+"https://www.google.com/maps/place/"+prefs.getString("latitude",null)
-                    +"N"+ prefs.getString("longitude",null)
-                    +"E";
-            SendMail sm = new SendMail(this, email, subject, msg);
+            final String message = prefs.getString("mail_text",null).trim();
+            final String[] msg = {""};
+            final String[] msg1 = new String[1];
+            if(prefs.getString("latitude",null)==null){
+                Task<Location> task = fusedLocationProviderClient.getLastLocation();
+                task.addOnSuccessListener(new OnSuccessListener<Location>() {
+
+                    @Override
+                    public void onSuccess(Location location) {
+
+                        msg[0] = message + "\n" + "coordinates: " + Double.toString(location.getLatitude()) + "  "
+                                + Double.toString(location.getLongitude())
+                                + "\n" + "https://www.google.com/maps/place/" + Double.toString(location.getLatitude())
+                                + "N" + Double.toString(location.getLongitude())
+                                + "E";
+                    }
+                });
+            }else {
+                msg[0] = message + "\n" + "coordinates: " + prefs.getString("latitude", null) + "  "
+                        + prefs.getString("longitude", null)
+                        + "\n" + "https://www.google.com/maps/place/" + prefs.getString("latitude", null)
+                        + "N" + prefs.getString("longitude", null)
+                        + "E";
+            }
+            SendMail sm = new SendMail(this, email, subject, msg[0]);
             sm.execute();
             vibration();
 
