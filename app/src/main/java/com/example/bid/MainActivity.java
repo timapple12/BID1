@@ -25,11 +25,16 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
         }
         if (first_opening == false) {
-            Intent intent = new Intent(this, Main_Window.class);
-            startActivity(intent);
+            if (prefs.getString("key", null).length() == 3) {
+                Intent intent = new Intent(this, Password.class);
+                startActivity(intent);
+            } else {
+
+          /*     Intent intent = new Intent(this, Extendet_settings.class);
+            startActivity(intent);*/
+            }
+
         }
-
-
     }
     public void onClick(View v){
         Intent intent = new Intent(this, Agreement.class);

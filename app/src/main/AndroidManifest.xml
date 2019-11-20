@@ -19,15 +19,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Agreement"></activity>
+        <activity android:name=".Password"></activity>
+        <activity android:name=".Agreement" />
 
         <service
             android:name=".VibrationService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETE"
-            />
+            android:stopWithTask="false" />
 
         <receiver
             android:name=".SensorRestarterBroadcastReceiver"
@@ -43,14 +43,16 @@
             android:name=".MyService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false"
-
-           />
+            android:stopWithTask="false" />
 
         <activity android:name=".Extendet_settings" />
         <activity android:name=".Main_Window" />
         <activity android:name=".Settings" />
         <activity android:name=".MainActivity">
+            <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/map_key" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
