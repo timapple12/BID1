@@ -43,7 +43,7 @@ public class Main_Window extends AppCompatActivity {
         }
         registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
     }
-   
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {

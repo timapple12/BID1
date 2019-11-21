@@ -4,7 +4,9 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Location;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.VibrationEffect;
@@ -15,21 +17,34 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.media.VolumeProviderCompat;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.concurrent.TimeUnit;
 
-public class MyService extends Service {
+public class MyService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, ActivityCompat.OnRequestPermissionsResultCallback {
     private MediaSessionCompat mediaSession;
     public static boolean a=true;
     private int count = 0;
+    FusedLocationProviderClient fusedLocationClient;
     private Handler handlerList=new Handler();
     private SharedPreferences prefs1;
+    double latitude;
+    double longitude;
+    private Location mLastLocation;
+
     public MyService() {
     }
    @Override
     public void onCreate() {
+
         super.onCreate();
        final SharedPreferences prefs = this.getSharedPreferences(
                "com.example.bid", Context.MODE_PRIVATE);
@@ -118,12 +133,32 @@ public class MyService extends Service {
         stopSelf();
 
     }
+    private void stloc(){
+        GoogleApiClient mGoogleApiClient;
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API).build();
+
+        mGoogleApiClient.connect();
+        mLastLocation = LocationServices.FusedLocationApi
+                .getLastLocation(mGoogleApiClient);
+        longitude=mLastLocation.getLongitude();
+        latitude=mLastLocation.getLatitude();
+    }
 
     public void sendEmail(){
+       // stloc();
+
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-
+        final SharedPreferences.Editor editor = prefs.edit();
+       /* if(prefs.getString("latitude",null)==null){
+            editor.putString("latitude",Double.toString(latitude));
+            editor.putString("longitude",Double.toString(longitude));
+            editor.apply();
+        }*/
 
         if(prefs.getBoolean("r",true)==true){
             String email =prefs.getString("mail",null).trim();
@@ -209,6 +244,7 @@ public class MyService extends Service {
        // super.onStartCommand(intent, flags, startId);
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         doing();
         return START_STICKY;
     }
@@ -223,5 +259,25 @@ public class MyService extends Service {
                     Toast.LENGTH_LONG).show();
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }

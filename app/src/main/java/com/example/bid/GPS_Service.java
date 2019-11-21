@@ -10,11 +10,16 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Settings;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+
 public class GPS_Service extends Service {
     private LocationListener listener;
     private LocationManager locationManager;
+    FusedLocationProviderClient fusedLocationProviderClient;
    public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
@@ -33,6 +38,7 @@ public class GPS_Service extends Service {
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+                Log.i("p","zap");
                 Intent i = new Intent("location_update");
                 i.putExtra("latitude",location.getLatitude());
                 i.putExtra("longitude",location.getLongitude());
@@ -54,11 +60,12 @@ public class GPS_Service extends Service {
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
+                Log.i("p","zapping");
             }
         };
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,0,listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,500,-1,listener);
 
     }
 
