@@ -18,6 +18,7 @@ private CheckBox checkBox;
         setContentView(R.layout.activity_agreement);
         checkBox=(CheckBox)findViewById(R.id.checkBox);
 
+
     }
     public void onButton_BeginClick(View v){
         SharedPreferences prefs = this.getSharedPreferences(
@@ -28,8 +29,6 @@ private CheckBox checkBox;
             startActivity(intent);
             editor.putBoolean("firstOpening",false);
             editor.apply();
-
-
         }else
         {
             Toast.makeText(getApplicationContext(), "You must agree with policy first", Toast.LENGTH_SHORT).show();

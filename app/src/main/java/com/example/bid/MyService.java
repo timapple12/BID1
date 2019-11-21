@@ -31,8 +31,20 @@ public class MyService extends Service {
    @Override
     public void onCreate() {
         super.onCreate();
+       final SharedPreferences prefs = this.getSharedPreferences(
+               "com.example.bid", Context.MODE_PRIVATE);
+       if(prefs.getBoolean("r",true)==true){
+           startGps();
+       }else if(prefs.getBoolean("r",true)==false){
+           stopGps();
+       }
     }
-
+    public void startGps(){
+        startService(new Intent(this,GPS_Service.class));
+    }
+    public void stopGps(){
+        stopService(new Intent(this,GPS_Service.class));
+    }
     public void doing(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
@@ -44,13 +56,18 @@ public class MyService extends Service {
         mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                 .setState(PlaybackStateCompat.STATE_PLAYING, 0, 0)
                 .build());
+
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 while (true) {
                     try {
-
+                        if(prefs.getBoolean("r",true)==true){
+                            startGps();
+                        }else if(prefs.getBoolean("r",true)==false){
+                            stopGps();
+                        }
                         VolumeProviderCompat myVolumeProvider =
                                 new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE,0,0) {
                                     @Override
@@ -92,15 +109,17 @@ public class MyService extends Service {
         return null;
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         Log.i("lol","stop service");
         a=false;
         handlerList.removeCallbacks(sendEmail_inThread);
+        stopSelf();
 
     }
+
+
     public void sendEmail(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
@@ -109,13 +128,15 @@ public class MyService extends Service {
         if(prefs.getBoolean("r",true)==true){
             String email =prefs.getString("mail",null).trim();
             String subject = "Your child in danger".trim();
-            String message = prefs.getString("mail_text",null).trim();
-            String msg;
-            msg=message+"\n"+"coordinates: "+prefs.getString("latitude",null)+"  "
-                    +prefs.getString("longitude",null)
-                    +"\n"+"https://www.google.com/maps/place/"+prefs.getString("latitude",null)
-                    +"N"+ prefs.getString("longitude",null)
-                    +"E";
+            final String message = prefs.getString("mail_text",null).trim();
+            final String msg ;
+
+                msg = message + "\n" + "coordinates: " + prefs.getString("latitude", null) + "  "
+                        + prefs.getString("longitude", null)
+                        + "\n" + "https://www.google.com/maps/place/" + prefs.getString("latitude", null)
+                        + "N" + prefs.getString("longitude", null)
+                        + "E";
+
             SendMail sm = new SendMail(this, email, subject, msg);
             sm.execute();
             vibration();

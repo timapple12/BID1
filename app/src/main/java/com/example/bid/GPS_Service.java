@@ -15,14 +15,10 @@ import androidx.annotation.Nullable;
 public class GPS_Service extends Service {
     private LocationListener listener;
     private LocationManager locationManager;
-    /*public int onStartCommand(Intent intent, int flags, int startId) {
+   public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
-   /* @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        startService(new Intent(this,GPS_Service.class));
-    }*/
+
 
     @Nullable
     @Override

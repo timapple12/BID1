@@ -31,4 +31,6 @@ dependencies {
     implementation group: 'androidx.legacy', name: 'legacy-support-v4', version: '1.0.0'
     implementation 'com.squareup:seismic:1.0.2'
     implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 }
