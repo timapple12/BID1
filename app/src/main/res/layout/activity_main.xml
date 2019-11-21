@@ -32,8 +32,6 @@
         android:onClick="onClick"
         android:text="Edit settings"
         android:textColor="#58508d"
-        android:textColorHighlight="#ff6361"
-        android:textColorHint="#ff6361"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

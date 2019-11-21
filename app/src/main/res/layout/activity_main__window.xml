@@ -4,69 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".Main_Window">
+
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:text="    Security mode"
-        android:textSize="30sp"
+        android:layout_width="363dp"
+        android:layout_height="65dp"
+        android:accessibilityLiveRegion="@android:integer/config_mediumAnimTime"
+        android:background="@drawable/filedsset"
+        android:text=" Security mode"
+        android:textAlignment="center"
+        android:textColor="#58508d"
+        android:textSize="40sp"
+        android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.121" />
+        app:layout_constraintVertical_bias="0.093" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="280dp"
         android:layout_height="59dp"
+        android:background="@drawable/filedsset"
         android:onClick="onButton_Settings"
         android:text="Settings"
+        android:textColor="#58508d"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.828" />
+        app:layout_constraintVertical_bias="0.761" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="120dp"
         android:layout_height="50dp"
+        android:background="@drawable/filedsset"
         android:text="Help center"
+        android:textColor="#58508d"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.247"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.93" />
+        app:layout_constraintVertical_bias="0.891" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="120dp"
         android:layout_height="50dp"
+        android:background="@drawable/filedsset"
         android:text="About us"
+        android:textColor="#58508d"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.745"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.93" />
+        app:layout_constraintVertical_bias="0.891" />
 
     <ToggleButton
         android:id="@+id/toggleButton"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="252dp"
+        android:background="@drawable/filedsset"
         android:text="SOS"
+        android:textAlignment="center"
+        android:textColor="#58508d"
         android:textOff="OFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.433" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
