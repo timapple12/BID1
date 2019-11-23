@@ -14,12 +14,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-
 public class GPS_Service extends Service {
     private LocationListener listener;
     private LocationManager locationManager;
-    FusedLocationProviderClient fusedLocationProviderClient;
+
    public int onStartCommand(Intent intent, int flags, int startId) {
         return START_STICKY;
     }
@@ -65,7 +63,7 @@ public class GPS_Service extends Service {
         };
 
         locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,500,-1,listener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,10000,0,listener);
 
     }
 

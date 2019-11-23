@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -19,9 +20,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Password"></activity>
-        <activity android:name=".Agreement" />
+        <service
+            android:name=".Main_Seervice"
+            android:exported="false"></service>
+        <service
+            android:name=".VibrationIntentService"
+            android:exported="false" />
 
+        <activity android:name=".Password" />
+
+        <activity android:name=".Agreement">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <service
             android:name=".VibrationService"
             android:enabled="true"
@@ -49,15 +64,7 @@
         <activity android:name=".Main_Window" />
         <activity android:name=".Settings" />
         <activity android:name=".MainActivity">
-            <meta-data
-                android:name="com.google.android.geo.API_KEY"
-                android:value="@string/map_key" />
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

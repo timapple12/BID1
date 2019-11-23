@@ -20,7 +20,7 @@ import androidx.core.content.ContextCompat;
 
 public class Main_Window extends AppCompatActivity {
 
-
+    Context context;
     ToggleButton toggleButton;
     private BroadcastReceiver broadcastReceiver;
     @Override
@@ -73,7 +73,7 @@ public class Main_Window extends AppCompatActivity {
         }
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 MyService m=new MyService();
                 if(isChecked==true){
@@ -98,7 +98,7 @@ public class Main_Window extends AppCompatActivity {
     public void onTogglePressOn(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-        startService(new Intent(this, VibrationService.class));
+        startService(new Intent(this, VibrationIntentService.class));
         startService(new Intent(this, MyService.class));
         if(prefs.getBoolean("r",true)==true){
             startService(new Intent(this, GPS_Service.class));
@@ -106,12 +106,13 @@ public class Main_Window extends AppCompatActivity {
 
     }
 
+
     public void onTogglePressOff(){
         MyService m =new MyService();
       //  m.stopSelf();
         Intent myService = new Intent(Main_Window.this, MyService.class);
         stopService(myService);
-        stopService(new Intent(this, VibrationService.class));
+       // stopService(new Intent(this, VibrationService.class));
        stopService(new Intent(this, GPS_Service.class));
     }
    public void onButton_Settings(View v){
