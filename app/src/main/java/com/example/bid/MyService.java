@@ -271,10 +271,6 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             double lat = lastLocation.getLatitude(), lon = lastLocation.getLongitude();
             latitude1=lat;
             longitude1=lon;
-            //String units = "imperial";
-            /*String url = String.format("http://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&units=%s&appid=%s",
-                    lat, lon, units, APP_ID);
-            new GetWeatherTask(textView).execute(url);*/
         }
     }
 

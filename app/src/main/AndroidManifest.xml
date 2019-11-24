@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -25,7 +26,8 @@
             android:exported="false"></service>
         <service
             android:name=".VibrationIntentService"
-            android:exported="false" />
+            android:exported="false"
+            />
 
         <activity android:name=".Password" />
 
@@ -42,7 +44,7 @@
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.RECEIVE_BOOT_COMPLETE"
-            android:stopWithTask="false" />
+           />
 
         <receiver
             android:name=".SensorRestarterBroadcastReceiver"

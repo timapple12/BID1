@@ -98,10 +98,10 @@ public class Main_Window extends AppCompatActivity {
     public void onTogglePressOn(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-        startService(new Intent(this, VibrationIntentService.class));
-        startService(new Intent(this, MyService.class));
+        startService(new Intent(getBaseContext(),VibrationIntentService.class));
+        startService(new Intent(getBaseContext(), MyService.class));
         if(prefs.getBoolean("r",true)==true){
-            startService(new Intent(this, GPS_Service.class));
+            startService(new Intent(getBaseContext(), GPS_Service.class));
         }
 
     }

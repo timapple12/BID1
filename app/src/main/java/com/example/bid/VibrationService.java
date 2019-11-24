@@ -1,6 +1,10 @@
 package com.example.bid;
 
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.SensorManager;
@@ -11,11 +15,12 @@ import android.os.Vibrator;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import com.squareup.seismic.ShakeDetector;
 
 public class VibrationService extends IntentService implements ShakeDetector.Listener {
-
+    public static final String CHANNEL_ID = "ForegroundServiceChannel";
     Handler handlerList = new Handler();
     protected Handler handler;
     private boolean a = true;
@@ -24,12 +29,35 @@ public class VibrationService extends IntentService implements ShakeDetector.Lis
     public VibrationService(String name) {
         super(name);
     }
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Foreground Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
 
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
     @Override
     public int onStartCommand(Intent intent,
                               int flags, int startId) {
        super.onStartCommand(intent, flags, startId);
+        String input = intent.getStringExtra("inputExtra");
+        createNotificationChannel();
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0);
 
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Foreground Service")
+                .setContentText(input)
+                .setContentIntent(pendingIntent)
+                .build();
+
+        startForeground(1, notification);
        on();
         return android.app.Service.START_STICKY;
 

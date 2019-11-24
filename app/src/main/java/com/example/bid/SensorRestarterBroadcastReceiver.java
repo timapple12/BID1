@@ -9,7 +9,7 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(SensorRestarterBroadcastReceiver.class.getSimpleName(), "Service Stops! Oooooooooooooppppssssss!!!!");
-        //context.startService(new Intent(context, VibrationService.class));
+        context.startService(new Intent(context, VibrationIntentService.class));
         Log.i("It","1st service started ");
        // context.startService(new Intent(context, MyService.class));
         //Log.i("It","2nd service started ");
