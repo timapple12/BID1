@@ -21,8 +21,10 @@ public class Password extends AppCompatActivity {
     CheckBox pasword;
     TextView forgot;
     int kostyl;
+    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
         pasw=(EditText)findViewById(R.id.pasw);
@@ -64,6 +66,7 @@ public class Password extends AppCompatActivity {
         }
 
     }
+
     public void sendEmail(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);

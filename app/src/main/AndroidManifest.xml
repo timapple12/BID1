@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.PREVENT_POWER_KEY" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -21,30 +21,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".Main_Seervice"
-            android:exported="false"></service>
+        <activity android:name=".MapsActivity" />
+
         <service
             android:name=".VibrationIntentService"
-            android:exported="false"
-            />
-
+            android:exported="false" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
         <activity android:name=".Password" />
-
         <activity android:name=".Agreement">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".VibrationService"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETE"
-           />
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETE" />
 
         <receiver
             android:name=".SensorRestarterBroadcastReceiver"
@@ -65,9 +63,7 @@
         <activity android:name=".Extendet_settings" />
         <activity android:name=".Main_Window" />
         <activity android:name=".Settings" />
-        <activity android:name=".MainActivity">
-
-        </activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

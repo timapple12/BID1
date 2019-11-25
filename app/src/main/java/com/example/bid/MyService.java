@@ -40,11 +40,12 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     private SharedPreferences prefs1;
     double latitude1;
     double longitude1;
-
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private GoogleApiClient googleApiClient;
 
     public MyService() {
     }
+
    @Override
     public void onCreate() {
 
@@ -77,7 +78,23 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                 .setState(PlaybackStateCompat.STATE_PLAYING, 0, 0)
                 .build());
-
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(true) {
+                    if (Math.abs(prefs.getFloat("latitude2",0) - latitude1) > 0.001 ||
+                            Math.abs(prefs.getFloat("longitude2",0) - longitude1) > 0.001) {
+                        sendEmail2();
+                        System.out.println("geoloc");
+                    }
+                    try {
+                        Thread.sleep(15000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -141,7 +158,20 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
     }
 
+    public void sendEmail2(){
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
 
+
+        String email =prefs.getString("mail",null).trim();
+        String subject = "Your child have been leaved the zone".trim();
+        String message = "Your child have been leaved the zone".trim();
+
+        SendMail sm = new SendMail(this, email, subject, message);
+        sm.execute();
+
+
+    }
     public void sendEmail(){
 
 
