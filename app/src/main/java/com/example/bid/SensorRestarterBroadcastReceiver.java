@@ -3,16 +3,49 @@ package com.example.bid;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver {
+public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
+    private int counter = 0;
+    private static boolean wasScreenOn = true;
+    MyService myService;
+
+
     @Override
-    public void onReceive(Context context, Intent intent) {
-        Log.i(SensorRestarterBroadcastReceiver.class.getSimpleName(), "Service Stops! Oooooooooooooppppssssss!!!!");
-        context.startService(new Intent(context, VibrationIntentService.class));
-        Log.i("It","1st service started ");
-       // context.startService(new Intent(context, MyService.class));
-        //Log.i("It","2nd service started ");
+    public void onReceive(final Context context, final Intent intent) {
 
+
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+
+                System.out.println("btn_off");
+                wasScreenOn = false;
+                ++counter;
+            } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+                System.out.println("btn_on");
+                wasScreenOn = true;
+                ++counter;
+
+            }
+            if (counter == 7) {
+                System.out.println("work power_Act");
+
+            }
+        }
+
+
+
+    public void counterToZero(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(4000);
+                    counter = 0;
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
+
 }

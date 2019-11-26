@@ -2,8 +2,10 @@ package com.example.bid;
 
 import android.Manifest;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -19,39 +21,38 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.media.VolumeProviderCompat;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
 import java.util.concurrent.TimeUnit;
 
-public class MyService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MyService extends Service implements GoogleApiClient.ConnectionCallbacks  {
+
     private MediaSessionCompat mediaSession;
-    public static boolean a=true;
+    public static boolean a = true;
     private int count = 0;
     FusedLocationProviderClient fusedLocationClient;
-    private Handler handlerList=new Handler();
+    private Handler handlerList = new Handler();
     private SharedPreferences prefs1;
     double latitude1;
     double longitude1;
+    int powerTextView=0;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private GoogleApiClient googleApiClient;
 
     public MyService() {
     }
 
-   @Override
+
+    @Override
     public void onCreate() {
 
-       if (googleApiClient != null) {
-           googleApiClient.connect();
-       }
+
         super.onCreate();
        final SharedPreferences prefs = this.getSharedPreferences(
                "com.example.bid", Context.MODE_PRIVATE);
@@ -82,10 +83,17 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             @Override
             public void run() {
                 while(true) {
-                    if (Math.abs(prefs.getFloat("latitude2",0) - latitude1) > 0.001 ||
-                            Math.abs(prefs.getFloat("longitude2",0) - longitude1) > 0.001) {
-                        sendEmail2();
-                        System.out.println("geoloc");
+                    powerTextView=Integer.parseInt(prefs.getString("power",null));
+                    if(prefs.getString("latitude",null).trim().length()==0){
+
+                    }else
+                        latitude1=Double.parseDouble(prefs.getString("latitude",null));
+                        longitude1=Double.parseDouble(prefs.getString("longitude",null));
+
+                        if (Math.abs(prefs.getFloat("latitude2",0) - latitude1) > 0.001 ||
+                                Math.abs(prefs.getFloat("longitude2",0) - longitude1) > 0.001) {
+                            sendEmail2();
+                            System.out.println("geoloc");
                     }
                     try {
                         Thread.sleep(15000);
@@ -100,6 +108,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             public void run() {
 
                 while (true) {
+
                     try {
                         if(prefs.getBoolean("r",true)==true){
                             startGps();
@@ -172,6 +181,11 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
 
     }
+
+    public static void main(String []args){
+
+    }
+
     public void sendEmail(){
 
 
@@ -248,10 +262,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         }
     }
 
-    @Override
-    public void onStart(Intent intent, int startId) {
-        googleApiClient = new GoogleApiClient.Builder(this, this, this).addApi(LocationServices.API).build();
-    }
+
 
     public  void thread(){
         final SharedPreferences prefs = this.getSharedPreferences(
@@ -276,6 +287,11 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                 "com.example.bid", Context.MODE_PRIVATE);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         doing();
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        final BroadcastReceiver mReceiver = new SensorRestarterBroadcastReceiver();
+        registerReceiver(mReceiver, filter);
         return START_STICKY;
     }
     public void sendSMS(String phoneNo, String msg) {                                  //SMS sending
@@ -289,8 +305,9 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                     Toast.LENGTH_LONG).show();
             ex.printStackTrace();
         }
-    }
 
+
+    }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -308,9 +325,8 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     public void onConnectionSuspended(int i) {
 
     }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+    public int d(){
+        return 5;
     }
+
 }
