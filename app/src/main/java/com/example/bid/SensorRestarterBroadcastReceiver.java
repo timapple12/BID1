@@ -3,13 +3,16 @@ package com.example.bid;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
     private int counter = 0;
+    SharedPreferences prefs;
     private static boolean wasScreenOn = true;
     @Override
     public void onReceive(final Context context, final Intent intent) {
-
+         prefs = context.getSharedPreferences("com.example.bid",
+                Context.MODE_PRIVATE);
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 ++counter;
                 System.out.println(counter);
@@ -20,15 +23,13 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
                 System.out.println(counter);
                 wasScreenOn = true;
 
-
             }
-            if (counter ==7) {
+            if (counter ==prefs.getInt("power1",0)) {
+                System.out.println("powerAct");
 
-                System.out.println("power_Act");
 
             }
         }
-
 
 
     public void counterToZero(){
