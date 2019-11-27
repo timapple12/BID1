@@ -7,26 +7,24 @@ import android.content.Intent;
 public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
     private int counter = 0;
     private static boolean wasScreenOn = true;
-    MyService myService;
-
-
     @Override
     public void onReceive(final Context context, final Intent intent) {
 
-
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-
-                System.out.println("btn_off");
+                ++counter;
+                System.out.println(counter);
                 wasScreenOn = false;
-                ++counter;
+
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-                System.out.println("btn_on");
-                wasScreenOn = true;
                 ++counter;
+                System.out.println(counter);
+                wasScreenOn = true;
+
 
             }
-            if (counter == 7) {
-                System.out.println("work power_Act");
+            if (counter ==7) {
+
+                System.out.println("power_Act");
 
             }
         }

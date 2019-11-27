@@ -18,8 +18,9 @@ public class Agreement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
 
-        SharedPreferences prefs = this.getSharedPreferences(
+        final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = prefs.edit();
 
 
         first_opening=prefs.getBoolean("firstOpening",true);
@@ -27,6 +28,21 @@ public class Agreement extends AppCompatActivity {
         {
             setContentView(R.layout.activity_agreement);
             checkBox=(CheckBox)findViewById(R.id.checkBox);
+            editor.putString("mail", " ");
+            editor.putString("mail_text", " ");
+            editor.putString("shake","0");
+            editor.putString("volume", "0");
+            editor.putString("numb", "0");
+            editor.putString("power", "0");
+            editor.putString("latitude","0");
+            editor.putString("longitude","0");
+            editor.putString("password"," ");
+            editor.putString("sendtime","1");
+
+            editor.putBoolean("r", true);
+            editor.putBoolean("r1", false);
+
+            editor.apply();
         }
         if (first_opening == false) {
             if (prefs.getString("key", null).length() == 3) {

@@ -101,6 +101,7 @@ public class Settings extends AppCompatActivity {
                         editor.putString("power", powerAct.getText().toString());
                         editor.putBoolean("r", r.isChecked());
                         editor.putBoolean("r1", r1.isChecked());
+                        editor.putInt("power1",Integer.parseInt(powerAct.getText().toString()));
                         editor.apply();
                         openActivity2();
                     }

@@ -28,6 +28,8 @@ import androidx.media.VolumeProviderCompat;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,13 +38,12 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     private MediaSessionCompat mediaSession;
     public static boolean a = true;
     private int count = 0;
-    FusedLocationProviderClient fusedLocationClient;
+    FusedLocationProviderClient fusedLocationProviderClient;
     private Handler handlerList = new Handler();
     private SharedPreferences prefs1;
     double latitude1;
     double longitude1;
     int powerTextView=0;
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     private GoogleApiClient googleApiClient;
 
     public MyService() {
@@ -68,6 +69,30 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     public void stopGps(){
         stopService(new Intent(this,GPS_Service.class));
     }
+    private Runnable locationSpy=new Runnable() {
+        @Override
+        public void run() {
+
+            powerTextView=Integer.parseInt(prefs1.getString("power",null));
+            if(prefs1.getString("latitude",null).trim().length()==1){
+                notRefreshedData();
+            }else
+                latitude1=Double.parseDouble(prefs1.getString("latitude",null));
+            longitude1=Double.parseDouble(prefs1.getString("longitude",null));
+
+            if (Math.abs(prefs1.getFloat("latitude2",0) - latitude1) > 0.001 ||
+                    Math.abs(prefs1.getFloat("longitude2",0) - longitude1) > 0.001) {
+                sendEmail2();
+                System.out.println("geoloc");
+            }
+            try {
+                Thread.sleep(15000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
     public void doing(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
@@ -84,8 +109,8 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             public void run() {
                 while(true) {
                     powerTextView=Integer.parseInt(prefs.getString("power",null));
-                    if(prefs.getString("latitude",null).trim().length()==0){
-
+                    if(prefs.getString("latitude",null).trim().length()==1){
+                        notRefreshedData();
                     }else
                         latitude1=Double.parseDouble(prefs.getString("latitude",null));
                         longitude1=Double.parseDouble(prefs.getString("longitude",null));
@@ -280,12 +305,28 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             }
         }).start();
     }
+    protected void notRefreshedData(){
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = prefs.edit();
+        Task<Location> task=fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if(location!=null){
+                    editor.putString("latitude",Double.toString(location.getLatitude()));
+                    editor.putString("longitude",Double.toString(location.getLongitude()));
+                    editor.apply();
+                }
+            }
+        });
+    }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
        // super.onStartCommand(intent, flags, startId);
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         doing();
         final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);

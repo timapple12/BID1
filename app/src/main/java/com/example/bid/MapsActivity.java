@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -33,7 +35,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public SharedPreferences prefs;
     private LocationListener listener;
     private LocationManager locationManager;
-    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -66,9 +68,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         .create()
                         .show();
 
-
             } else {
-                // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                         MY_PERMISSIONS_REQUEST_LOCATION);
@@ -144,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final LatLng latlng = new LatLng(prefs.getFloat("latitude2",0), prefs.getFloat("longitude2",0));
         MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("U a here dude");
         //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 70));
         googleMap.addMarker(markerOptions);
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -154,6 +154,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Toast.LENGTH_LONG).show();
 
                 googleMap.clear();
+                CircleOptions circleOptions=new CircleOptions()
+                        .center(new LatLng(point.latitude,point.longitude))
+                        .radius(1000)
+                        .strokeColor(Color.BLACK)
+                        .strokeWidth(4);
+                googleMap.addCircle(circleOptions);
                 googleMap.addMarker(new MarkerOptions().position(point));
                 editor.putString("latitude1", Double.toString( point.latitude));
                 editor.putString("longitude1", Double.toString(point.longitude));

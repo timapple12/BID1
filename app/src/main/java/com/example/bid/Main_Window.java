@@ -19,12 +19,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class Main_Window extends AppCompatActivity {
+    public double latn;
+    public double lon;
+
+    SharedPreferences prefs1;
 
     Context context;
     ToggleButton toggleButton;
     private BroadcastReceiver broadcastReceiver;
     @Override
     protected void onResume() {
+
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();
@@ -47,7 +52,10 @@ public class Main_Window extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        prefs1 = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
 
+      //  power=Integer.parseInt(prefs.getString("power",null));
         super.onCreate(savedInstanceState);
 
                 setContentView(R.layout.activity_main__window);
@@ -59,6 +67,12 @@ public class Main_Window extends AppCompatActivity {
         }
 
     }
+    public int power;
+    public void callingPower(){
+
+        power=prefs1.getInt("power1",0);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void enable_btn()
     {
