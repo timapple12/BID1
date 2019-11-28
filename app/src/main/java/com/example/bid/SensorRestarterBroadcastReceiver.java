@@ -13,8 +13,17 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
     public void onReceive(final Context context, final Intent intent) {
          prefs = context.getSharedPreferences("com.example.bid",
                 Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = prefs.edit();
+        new Thread((new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        })).start();
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 ++counter;
+                editor.putString("count",Integer.toString(counter));
+                editor.apply();
                 System.out.println(counter);
                 wasScreenOn = false;
 
@@ -26,9 +35,11 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
             }
             if (counter ==prefs.getInt("power1",0)) {
                 System.out.println("powerAct");
+                counter=0;
 
 
             }
+            counterToZero();
         }
 
 
