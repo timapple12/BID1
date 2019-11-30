@@ -93,12 +93,10 @@
         android:layout_marginStart="22dp"
         android:layout_marginTop="229dp"
         android:layout_marginEnd="22dp"
-        android:layout_marginBottom="228dp"
         android:gravity="center"
         android:text="E-mail  text"
         android:textColor="#FF6361"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -155,140 +153,80 @@
         app:layout_constraintStart_toStartOf="@+id/radioGroup2"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="177dp"
-        android:layout_marginBottom="178dp"
-        android:gravity="center"
-        android:text="Shake phone"
-        android:textColor="#FF6361"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView17"
-        app:layout_constraintEnd_toEndOf="@+id/textView7"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/textView4"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <EditText
-        android:id="@+id/editText4"
-        android:layout_width="60dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginBottom="36dp"
-        android:ems="10"
-        android:hint="5-20"
-        android:inputType="number"
-        android:shadowColor="#FF6361"
-        android:textColorHint="#58508d"
-        android:textColor="#FF6361"
-        app:layout_constraintBottom_toTopOf="@+id/textView16"
-        app:layout_constraintEnd_toEndOf="@+id/textView5"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/textView6" />
-
     <EditText
         android:id="@+id/editText5"
         android:layout_width="60dp"
         android:layout_height="45dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginStart="188dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
-        android:textColor="#FF6361"
         android:hint="5-10"
         android:inputType="number"
-        android:textColorHint="#58508d"
-        app:layout_constraintBottom_toBottomOf="@+id/textView16"
-        app:layout_constraintEnd_toEndOf="@+id/editText4"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/textView7"
-        app:layout_constraintTop_toTopOf="@+id/textView9"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_marginEnd="1dp"
-        android:gravity="center"
-        android:text="times"
         android:textColor="#FF6361"
-        android:textSize="18sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/editText4"
-        app:layout_constraintEnd_toEndOf="@+id/textView16" />
+        android:textColorHint="#58508d"
+        app:layout_constraintEnd_toStartOf="@+id/view"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="@+id/textView7"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="99dp"
-        android:layout_marginBottom="62dp"
+        android:layout_marginStart="239dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="84dp"
         android:text="times"
         android:textColor="#FF6361"
         android:textSize="18sp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/view"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        android:id="@+id/editText8"
-        android:layout_width="60dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:hint="5-20"
-        android:inputType="number"
-        android:textColorHint="#58508d"
-        android:textColor="#FF6361"
-        app:layout_constraintEnd_toEndOf="@+id/editText5"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/editText4" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toTopOf="@+id/textView14"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="61dp"
-        android:layout_marginBottom="62dp"
+        android:layout_marginTop="76dp"
         android:gravity="center"
         android:text="Click Volume "
         android:textColor="#FF6361"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/view"
+        app:layout_constraintBottom_toTopOf="@+id/textView17"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/radioGroup2"
-        app:layout_constraintTop_toTopOf="@+id/textView6"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.019" />
 
     <TextView
         android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="4dp"
+        android:layout_width="48dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="124dp"
         android:gravity="center"
         android:text="times"
         android:textColor="#FF6361"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView16"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toTopOf="@+id/editText5" />
+        app:layout_constraintBottom_toBottomOf="@+id/textView7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView7"
+        app:layout_constraintTop_toTopOf="@+id/textView7"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="28dp"
         android:layout_marginEnd="6dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="44dp"
         android:gravity="center"
         android:text="Click on power"
         android:textColor="#FF6361"
@@ -296,9 +234,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/textView14"
         app:layout_constraintEnd_toStartOf="@+id/textView5"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/radioGroup2"
-        app:layout_constraintTop_toTopOf="@+id/textView9"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintStart_toStartOf="@+id/radioGroup2" />
 
     <TextView
         android:id="@+id/textView17"
@@ -369,6 +305,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/editText8"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="176dp"
+        android:layout_marginTop="56dp"
+        android:ems="10"
+        android:hint="5-20"
+        android:inputType="number"
+        android:textColor="#FF6361"
+        android:textColorHint="#58508d"
+        app:layout_constraintBottom_toTopOf="@+id/textView18"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.006"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.019" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,9 @@ public class GPS_Service extends Service {
     private LocationManager locationManager;
 
    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
+
+
+       return START_STICKY;
     }
 
 

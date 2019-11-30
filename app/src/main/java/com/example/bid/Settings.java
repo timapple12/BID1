@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat;
 public class Settings extends AppCompatActivity {
     EditText mail;
     EditText mail_text;
-    EditText countShake;
     EditText powerAct;
     EditText volumeAct;
     String mailStr;
@@ -51,19 +50,16 @@ public class Settings extends AppCompatActivity {
         r1=(RadioButton)findViewById(R.id.nogeo);
         mail=(EditText)findViewById(R.id.editText2);
         mail_text=(EditText)findViewById(R.id.editText3);
-        countShake=(EditText)findViewById(R.id.editText4);
         powerAct=(EditText)findViewById(R.id.editText5);
         volumeAct=(EditText)findViewById(R.id.editText8);
         r.setChecked(prefs.getBoolean("r",true));
         r1.setChecked(prefs.getBoolean("r1",true));
         volumeAct.setText(prefs.getString("volume",null));
-        countShake.setText(prefs.getString("shake",null));
+
         powerAct.setText(prefs.getString("power",null));
         phoneNumb.setText(prefs.getString("numb",null));
 
-        if(r1.isChecked()==true){
-            stopService(new Intent(this, GPS_Service.class));
-        }
+
 
         mail.setText(prefs.getString("mail",null));
         mail_text.setText(prefs.getString("mail_text",null));
@@ -73,8 +69,7 @@ public class Settings extends AppCompatActivity {
                     Log.i("Settings","top");
                 }
                 public void onSwipeRight() {
-                    if(countShake.getText().toString().trim().length()==0||
-                        mail.getText().toString().trim().length()==0||
+                    if(mail.getText().toString().trim().length()==0||
                         mail_text.getText().toString().trim().length()==0||
                         phoneNumb.getText().toString().trim().length()==0||
                         volumeAct.getText().toString().trim().length()==0||
@@ -86,8 +81,7 @@ public class Settings extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Enter 'click on power' grather than 5 and below 20",Toast.LENGTH_SHORT).show();
                     }else if(Integer.parseInt(powerAct.getText().toString())<5||Integer.parseInt(powerAct.getText().toString())>10){
                         Toast.makeText(getApplicationContext(),"Enter 'click on power' grather than 5 and below 10",Toast.LENGTH_SHORT).show();
-                    }else if(Integer.parseInt(countShake.getText().toString())<5||Integer.parseInt(countShake.getText().toString())>20){
-                        Toast.makeText(getApplicationContext(),"Enter 'click on power' grather than 5 and below 20",Toast.LENGTH_SHORT).show();
+
                     }else
                     {
                         Log.i("Settings", "right");
@@ -95,7 +89,6 @@ public class Settings extends AppCompatActivity {
                         mailStr_text = mail_text.getText().toString();
                         editor.putString("mail", mailStr);
                         editor.putString("mail_text", mailStr_text);
-                        editor.putString("shake", countShake.getText().toString());
                         editor.putString("volume", volumeAct.getText().toString());
                         editor.putString("numb", phoneNumb.getText().toString());
                         editor.putString("power", powerAct.getText().toString());
@@ -112,7 +105,6 @@ public class Settings extends AppCompatActivity {
                     mailStr_text = mail_text.getText().toString();
                     editor.putString("mail", mailStr);
                     editor.putString("mail_text", mailStr_text);
-                    editor.putString("shake", countShake.getText().toString());
                     editor.putString("volume", volumeAct.getText().toString());
                     editor.putString("numb", phoneNumb.getText().toString());
                     editor.putString("power", powerAct.getText().toString());

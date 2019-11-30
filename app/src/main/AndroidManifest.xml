@@ -54,12 +54,14 @@
         <service
             android:name=".GPS_Service"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            />
         <service
             android:name=".MyService"
             android:enabled="true"
             android:exported="true"
-            android:stopWithTask="false" />
+            android:stopWithTask="false"
+           />
 
         <activity android:name=".Extendet_settings" />
         <activity android:name=".Main_Window" />

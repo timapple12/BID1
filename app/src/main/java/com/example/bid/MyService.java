@@ -103,7 +103,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     };
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void doing(){
-       // handlerList.postDelayed(locationSpy ,1);
+
         SensorRestarterBroadcastReceiver sensorRestarterBroadcastReceiver=new SensorRestarterBroadcastReceiver();
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
@@ -125,14 +125,17 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                     }else
                         latitude1=Double.parseDouble(prefs.getString("latitude",null));
                         longitude1=Double.parseDouble(prefs.getString("longitude",null));
+                    double angular_distance;
 
-                        if (Math.abs(prefs.getFloat("latitude2",0) - latitude1) > 0.001 ||
-                                Math.abs(prefs.getFloat("longitude2",0) - longitude1) > 0.001) {
-                            sendEmail2();
-                            System.out.println("geoloc");
-                    }
+                    angular_distance=1000*1000*1000*2*Math.atan(Math.sqrt(Math.pow(Math.sin((latitude1-prefs1.getFloat("latitude2",0))/2),2)*
+                            Math.cos(latitude1)*Math.cos(prefs1.getFloat("latitude2",0))*
+                            Math.pow(Math.sin((longitude1-prefs1.getFloat("longitude2",0))/2),2)))*5/9;
+                    System.out.println(angular_distance);
+                       if(angular_distance>prefs.getFloat("spinn",0)){
+                           System.out.println("has been went out");
+                       }
                     try {
-                        Thread.sleep(15000);
+                        Thread.sleep(20000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -187,8 +190,9 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                     editor.apply();
                 }
             }
-        }).start();
+        }).start();//LOCATIONSPY ЗРОБИТИ В НОВОМУ ПОТОЦІ НЕ РАНЕЙБЛ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!А ТО БУДЕ ПЗДЦ.
         thread();
+
     }
 
     @Nullable
@@ -203,7 +207,6 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         Log.i("lol","stop service");
         a=false;
         handlerList.removeCallbacks(sendEmail_inThread);
-       // handlerList.removeCallbacks(locationSpy);
         if(mReceiver!=null)
         {
             unregisterReceiver(mReceiver);
@@ -342,6 +345,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println(5>>>1);
        // super.onStartCommand(intent, flags, startId);
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
@@ -378,6 +382,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             double lat = lastLocation.getLatitude(), lon = lastLocation.getLongitude();
             latitude1=lat;
             longitude1=lon;
+
         }
     }
 
@@ -385,8 +390,6 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     public void onConnectionSuspended(int i) {
 
     }
-    public int d(){
-        return 5;
-    }
+
 
 }

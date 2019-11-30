@@ -80,7 +80,28 @@ public class Extendet_settings extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
-               // Toast.makeText(getBaseContext(), "Position = " + position, Toast.LENGTH_SHORT).show();
+              switch (position){
+                  case 0:
+                      editor.putFloat("spinn",Float.parseFloat(data[0]));
+                      editor.apply();
+                      break;
+                  case 1:
+                      editor.putFloat("spinn",Float.parseFloat(data[1]));
+                      editor.apply();
+                      break;
+                  case 2:
+                      editor.putFloat("spinn",Float.parseFloat(data[2]));
+                      editor.apply();
+                      break;
+                  case 3:
+                      editor.putFloat("spinn",Float.parseFloat(data[3]));
+                      editor.apply();
+                      break;
+                  case 4:
+                      editor.putFloat("spinn",Float.parseFloat(data[4]));
+                      editor.apply();
+                      break;
+              }
                 editor.putInt("spinner",position);
                 editor.apply();
             }

@@ -31,7 +31,6 @@ public class Main_Window extends AppCompatActivity {
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
 
-      //  power=Integer.parseInt(prefs.getString("power",null));
         super.onCreate(savedInstanceState);
 
                 setContentView(R.layout.activity_main__window);
@@ -43,12 +42,6 @@ public class Main_Window extends AppCompatActivity {
         }
 
     }
-    public int power;
-    public void callingPower(){
-
-        power=prefs1.getInt("power1",0);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void enable_btn()
     {

@@ -30,7 +30,6 @@ public class Agreement extends AppCompatActivity {
             checkBox=(CheckBox)findViewById(R.id.checkBox);
             editor.putString("mail", " ");
             editor.putString("mail_text", " ");
-            editor.putString("shake","0");
             editor.putString("volume", "0");
             editor.putString("numb", "0");
             editor.putString("power", "0");
