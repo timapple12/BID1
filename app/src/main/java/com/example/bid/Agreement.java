@@ -44,7 +44,7 @@ public class Agreement extends AppCompatActivity {
             editor.apply();
         }
         if (first_opening == false) {
-            if (prefs.getString("key", null).length() == 3) {
+            if (prefs.getString("key", " ").length() == 3) {
                 Intent intent = new Intent(this, Password.class);
                 startActivity(intent);
             } else {
