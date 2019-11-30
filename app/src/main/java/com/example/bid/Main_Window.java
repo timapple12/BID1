@@ -1,10 +1,8 @@
 package com.example.bid;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -26,28 +24,6 @@ public class Main_Window extends AppCompatActivity {
 
     Context context;
     ToggleButton toggleButton;
-    private BroadcastReceiver broadcastReceiver;
-    @Override
-    protected void onResume() {
-
-        final SharedPreferences prefs = this.getSharedPreferences(
-                "com.example.bid", Context.MODE_PRIVATE);
-        final SharedPreferences.Editor editor = prefs.edit();
-        super.onResume();
-        if(broadcastReceiver == null){
-            broadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-
-                    editor.putString("latitude",""+intent.getExtras().get("latitude"));
-                    editor.putString("longitude",""+intent.getExtras().get("longitude"));
-                    editor.apply();
-
-                }
-            };
-        }
-        registerReceiver(broadcastReceiver,new IntentFilter("location_update"));
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override

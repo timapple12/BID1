@@ -58,7 +58,7 @@ public class Password extends AppCompatActivity {
     public void onButton(View v){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-        if(pasw.getText().toString().equals( prefs.getString("password",null))){
+        if(pasw.getText().toString().equals( prefs.getString("password"," "))){
             Intent intent = new Intent(this, Main_Window.class);
             startActivity(intent);
         }else{

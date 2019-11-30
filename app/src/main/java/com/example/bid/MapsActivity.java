@@ -142,9 +142,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Intent intent = new Intent(this, Extendet_settings.class);
 
         final LatLng latlng = new LatLng(prefs.getFloat("latitude2",0), prefs.getFloat("longitude2",0));
-        MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("U a here dude");
+        MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("Your home location");
         //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 70));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 3));
         googleMap.addMarker(markerOptions);
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
@@ -168,7 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 editor.apply();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                 builder.setTitle("Alert");
-                builder.setMessage("Are u sure it is your home location?");
+                builder.setMessage("Are u sure?");
                 builder.setCancelable(false);
                 builder.setNeutralButton("NO",
                         new DialogInterface.OnClickListener() {
@@ -185,13 +185,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AlertDialog alert = builder.create();
                 alert.show();
 
-               /* if(Math.abs(point.longitude-mlocatioon.getLongitude())>0.001||
-                        Math.abs(point.latitude-mlocatioon.getLatitude())>0.001){
-
-                    notificationManager.notify(1, notification);
-                }else {
-                }
-*/
 
             }
         });

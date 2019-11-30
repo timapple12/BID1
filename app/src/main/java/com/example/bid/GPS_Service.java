@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -32,15 +33,17 @@ public class GPS_Service extends Service {
     @SuppressLint("MissingPermission")
     @Override
     public void onCreate() {
-
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = prefs.edit();
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
                 Log.i("p","zap");
-                Intent i = new Intent("location_update");
-                i.putExtra("latitude",location.getLatitude());
-                i.putExtra("longitude",location.getLongitude());
-                sendBroadcast(i);
+
+                editor.putString("latitude",""+location.getLatitude());
+                editor.putString("longitude",""+location.getLongitude());
+                editor.apply();
             }
 
             @Override

@@ -22,6 +22,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.media.VolumeProviderCompat;
 
@@ -44,6 +45,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     double latitude1;
     double longitude1;
     int powerTextView=0;
+    private BroadcastReceiver mReceiver;
     private GoogleApiClient googleApiClient;
 
     public MyService() {
@@ -79,7 +81,13 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             }else
                 latitude1=Double.parseDouble(prefs1.getString("latitude",null));
             longitude1=Double.parseDouble(prefs1.getString("longitude",null));
+            double angular_distance;
 
+            angular_distance=1000*2*Math.atan(Math.sqrt(Math.pow(Math.sin((latitude1-prefs1.getFloat("latitude2",0))/2),2)*
+                    Math.cos(latitude1)*Math.cos(prefs1.getFloat("latitude2",0))*
+                    Math.pow(Math.sin((longitude1-prefs1.getFloat("longitude2",0))/2),2)));
+
+            System.out.println(angular_distance);
             if (Math.abs(prefs1.getFloat("latitude2",0) - latitude1) > 0.001 ||
                     Math.abs(prefs1.getFloat("longitude2",0) - longitude1) > 0.001) {
                 sendEmail2();
@@ -93,7 +101,10 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
         }
     };
+    @RequiresApi(api = Build.VERSION_CODES.P)
     public void doing(){
+       // handlerList.postDelayed(locationSpy ,1);
+        SensorRestarterBroadcastReceiver sensorRestarterBroadcastReceiver=new SensorRestarterBroadcastReceiver();
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();
@@ -139,6 +150,11 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                             startGps();
                         }else if(prefs.getBoolean("r",true)==false){
                             stopGps();
+                        }
+                        if(Integer.parseInt(prefs1.getString("count",null))==Integer.parseInt(prefs1.getString("power",null))){
+                            handlerList.postDelayed(sendEmail_inThread, 1);
+                            editor.putString("count","0");
+                           editor.apply();
                         }
                         VolumeProviderCompat myVolumeProvider =
                                 new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE,0,0) {
@@ -187,7 +203,11 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         Log.i("lol","stop service");
         a=false;
         handlerList.removeCallbacks(sendEmail_inThread);
-       // googleApiClient.disconnect();
+       // handlerList.removeCallbacks(locationSpy);
+        if(mReceiver!=null)
+        {
+            unregisterReceiver(mReceiver);
+        }
         stopSelf();
 
     }
@@ -207,9 +227,6 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
     }
 
-    public static void main(String []args){
-
-    }
 
     public void sendEmail(){
 
@@ -266,7 +283,8 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
         @Override
         public void run() {
-            
+            System.out.println(prefs1.getString("count",null));
+
             if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
                 sendEmail();
                 sendSMS(prefs1.getString("numb",null),prefs1.getString("mail_text",null));
@@ -321,6 +339,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             }
         });
     }
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
        // super.onStartCommand(intent, flags, startId);
@@ -331,7 +350,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_USER_PRESENT);
-        final BroadcastReceiver mReceiver = new SensorRestarterBroadcastReceiver();
+         mReceiver = new SensorRestarterBroadcastReceiver();
         registerReceiver(mReceiver, filter);
         return START_STICKY;
     }
