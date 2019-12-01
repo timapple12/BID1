@@ -57,7 +57,7 @@ public class Main_Window extends AppCompatActivity {
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+               // toggleButton.setBackgroundDrawable();
                 MyService m=new MyService();
                 if(isChecked==true){
                     m.a=true;
@@ -92,7 +92,7 @@ public class Main_Window extends AppCompatActivity {
 
     public void onTogglePressOff(){
         MyService m =new MyService();
-      //  m.stopSelf();
+        m.stopSelf();
         Intent myService = new Intent(Main_Window.this, MyService.class);
         stopService(myService);
        // stopService(new Intent(this, VibrationService.class));
@@ -108,7 +108,8 @@ public class Main_Window extends AppCompatActivity {
     }
 
     private boolean runtime_permissions() {
-        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
 
