@@ -30,6 +30,7 @@ public class Password extends AppCompatActivity {
         pasw=(EditText)findViewById(R.id.pasw);
         pasword=(CheckBox)findViewById(R.id.checkBox2);
         forgot=(TextView)findViewById(R.id.textView25);
+
         forgot.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

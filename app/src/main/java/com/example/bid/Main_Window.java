@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,7 @@ public class Main_Window extends AppCompatActivity {
                 setContentView(R.layout.activity_main__window);
 
         toggleButton=(ToggleButton)findViewById(R.id.toggleButton);
+
         if(!runtime_permissions())
         {
             enable_btn();
@@ -56,10 +58,11 @@ public class Main_Window extends AppCompatActivity {
         }
 
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-               // toggleButton.setBackgroundDrawable();
                 MyService m=new MyService();
                 if(isChecked==true){
+                    toggleButton.setHighlightColor(Color.RED);
                     m.a=true;
                     editor.putBoolean("toggle",isChecked);
                     editor.apply();
@@ -67,6 +70,7 @@ public class Main_Window extends AppCompatActivity {
 
 
                 }else if(isChecked==false){
+
                    // m.stopSelf();
                     onTogglePressOff();
                     editor.putBoolean("toggle",isChecked);

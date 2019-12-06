@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_checked="false" android:drawable="@color/red"></item>
-    <item android:state_checked="true" android:drawable="@color/green"></item>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-<item android:state_pressed="true" >
-    <shape android:shape="rectangle"  >
-        <corners android:radius="20dip" />
-        <item android:state_checked="false" android:drawable="@color/red"></item>
-        <item android:state_checked="true" android:drawable="@color/green"></item>
-    </shape>
+    <item>
+        <shape android:shape="oval" >
+            <solid android:color="#BDBDBD"/>
+            <corners android:radius="9dp"/>
+        </shape>
+    </item>
 
-</item>
-<item android:state_focused="true">
-    <shape android:shape="rectangle"  >
-        <corners android:radius="20dip" />
-        <item android:state_checked="false" android:drawable="@color/red"></item>
-        <item android:state_checked="true" android:drawable="@color/green"></item>
-    </shape>
-</item>
-<item>
-    <shape android:shape="rectangle"  >
-        <corners android:radius="20dip" />
-        <item android:state_checked="false" android:drawable="@color/red"></item>
-        <item android:state_checked="true" android:drawable="@color/green"></item>
-    </shape>
-</item>
-</selector>
+    <item
+        android:bottom="2dp"
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp">
+
+        <shape android:shape="oval">
+
+            <gradient android:startColor="#C03EA9"
+                android:endColor="#69AAEC"/>
+        </shape>
+    </item>
+
+</layer-list>

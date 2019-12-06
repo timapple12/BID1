@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     tools:context=".Extendet_settings">
-
+    <ImageView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/gradient_texture_color_129394_3840x2160"/>
 
     <Spinner
         android:id="@+id/spinner"

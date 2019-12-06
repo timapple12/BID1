@@ -7,7 +7,11 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".Main_Window">
 
-
+    <ImageView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/gradient_texture_color_129394_3840x2160"/>
     <TextView
         android:id="@+id/textView"
         android:layout_width="363dp"
@@ -73,7 +77,8 @@
         android:id="@+id/toggleButton"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:background="@drawable/filedsset"
+
+        android:background="@drawable/my_btn_toggle"
         android:text="SOS"
         android:textAlignment="center"
         android:textColor="#58508d"
