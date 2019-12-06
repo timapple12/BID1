@@ -52,10 +52,20 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     }
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onCreate() {
 
-
+        prefs1 = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        doing();
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        mReceiver = new SensorRestarterBroadcastReceiver();
+        registerReceiver(mReceiver, filter);
         super.onCreate();
        final SharedPreferences prefs = this.getSharedPreferences(
                "com.example.bid", Context.MODE_PRIVATE);
@@ -288,9 +298,28 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         public void run() {
             System.out.println(prefs1.getString("count",null));
 
+
             if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
                 sendEmail();
-                sendSMS(prefs1.getString("numb",null),prefs1.getString("mail_text",null));
+                if(prefs1.getBoolean("r",true)==true){
+                    String email =prefs1.getString("mail",null).trim();
+                    String subject = "Your child in danger".trim();
+                    final String message = prefs1.getString("mail_text",null).trim();
+                    String msg ;
+
+                    msg = message + "\n" + "coordinates: " + prefs1.getString("latitude", null) + "  "
+                            + prefs1.getString("longitude", null)
+                            + "\n" + "https://www.google.com/maps/place/" + prefs1.getString("latitude", null)
+                            + "N" + prefs1.getString("longitude", null)
+                            + "E";
+
+                    sendSMS(prefs1.getString("numb",null),msg);
+
+                }else{
+                    sendSMS(prefs1.getString("numb",null),prefs1.getString("mail_text",null));
+
+                }
+
                 handlerList.postDelayed(sendEmail_inThread,
                         Integer.parseInt(prefs1.getString("sendtime", null)) * 1000);
             }else{
@@ -342,22 +371,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             }
         });
     }
-    @RequiresApi(api = Build.VERSION_CODES.P)
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println(5>>>1);
-       // super.onStartCommand(intent, flags, startId);
-        prefs1 = this.getSharedPreferences(
-                "com.example.bid", Context.MODE_PRIVATE);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        doing();
-        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_USER_PRESENT);
-         mReceiver = new SensorRestarterBroadcastReceiver();
-        registerReceiver(mReceiver, filter);
-        return START_STICKY;
-    }
+
     public void sendSMS(String phoneNo, String msg) {                                  //SMS sending
         try {
             SmsManager smsManager = SmsManager.getDefault();
