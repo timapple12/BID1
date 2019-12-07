@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Password extends AppCompatActivity {
+public class Password2 extends AppCompatActivity {
     EditText pasw;
     CheckBox pasword;
     TextView forgot;
@@ -26,7 +26,7 @@ public class Password extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_password);
+        setContentView(R.layout.activity_password2);
         pasw=(EditText)findViewById(R.id.pasw2);
         pasword=(CheckBox)findViewById(R.id.checkBox22);
         forgot=(TextView)findViewById(R.id.textView252);
@@ -59,9 +59,10 @@ public class Password extends AppCompatActivity {
     public void onButton(View v){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-        if(pasw.getText().toString().equals( prefs.getString("password"," "))){
-            Intent intent = new Intent(this, Main_Window.class);
+        if(pasw.getText().toString().equals( prefs.getString("password1"," "))){
+            Intent intent = new Intent(this, Settings.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }else{
             Toast.makeText(getApplicationContext(),"Enter right password",Toast.LENGTH_SHORT).show();
         }
@@ -73,13 +74,14 @@ public class Password extends AppCompatActivity {
                 "com.example.bid", Context.MODE_PRIVATE);
 
 
-            String email =prefs.getString("mail",null).trim();
-            String subject = "Your password".trim();
-            String message = prefs.getString("password",null).trim();
+        String email =prefs.getString("mail",null).trim();
+        String subject = "Your password".trim();
+        String message = prefs.getString("password1",null).trim();
 
-            SendMail sm = new SendMail(this, email, subject, message);
-            sm.execute();
+        SendMail sm = new SendMail(this, email, subject, message);
+        sm.execute();
 
 
     }
 }
+

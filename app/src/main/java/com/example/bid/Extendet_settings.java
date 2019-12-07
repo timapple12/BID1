@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Extendet_settings extends AppCompatActivity {
     EditText timeBetweenSending;
     EditText pasw;
+    EditText pasw1;
     View v2;
     Button but;
     String data[]={"20","50","100","500","2000"};
@@ -33,6 +34,8 @@ public class Extendet_settings extends AppCompatActivity {
         timeBetweenSending.setText(prefs.getString("sendtime", null));
         pasw = (EditText) findViewById(R.id.editText7);
         pasw.setText(prefs.getString("password", null));
+        pasw1=(EditText)findViewById(R.id.editText9);
+        pasw1.setText(prefs.getString("password1"," "));
         v2 = (View) findViewById(R.id.view2);
         final Intent intent = new Intent(this, Settings.class);
         v2.setOnTouchListener(new OnSwipeTouchListener(Extendet_settings.this) {
@@ -53,8 +56,9 @@ public class Extendet_settings extends AppCompatActivity {
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     editor.putString("key", "kek");
-                    editor.putString("password", pasw.getText().toString());
-                    editor.putString("sendtime", timeBetweenSending.getText().toString());
+                    editor.putString("password", pasw.getText().toString().trim());
+                    editor.putString("password1", pasw.getText().toString().trim());
+                    editor.putString("sendtime", timeBetweenSending.getText().toString().trim());
                     editor.apply();
                 } else {
                     Toast.makeText(getApplicationContext(), "The number must be greater than 5", Toast.LENGTH_SHORT).show();
@@ -68,6 +72,7 @@ public class Extendet_settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editor.putString("password", pasw.getText().toString().trim());
+                editor.putString("password1", pasw.getText().toString().trim());
                 editor.putString("sendtime", timeBetweenSending.getText().toString().trim());
                 editor.apply();
                 startActivity(i);

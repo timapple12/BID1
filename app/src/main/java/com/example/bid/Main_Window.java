@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -62,7 +61,7 @@ public class Main_Window extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 MyService m=new MyService();
                 if(isChecked==true){
-                    toggleButton.setHighlightColor(Color.RED);
+
                     m.a=true;
                     editor.putBoolean("toggle",isChecked);
                     editor.apply();
@@ -103,7 +102,7 @@ public class Main_Window extends AppCompatActivity {
        stopService(new Intent(this, GPS_Service.class));
     }
    public void onButton_Settings(View v){
-        Intent intent = new Intent(this,Settings.class);
+        Intent intent = new Intent(this,Password2.class);
         startActivity(intent);
        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

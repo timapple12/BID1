@@ -36,6 +36,7 @@ public class Agreement extends AppCompatActivity {
             editor.putString("latitude","0");
             editor.putString("longitude","0");
             editor.putString("password"," ");
+            editor.putString("password1"," ");
             editor.putString("sendtime","1");
 
             editor.putBoolean("r", true);
@@ -68,11 +69,5 @@ public class Agreement extends AppCompatActivity {
         {
             Toast.makeText(getApplicationContext(), "You must agree with policy first", Toast.LENGTH_SHORT).show();
         }
-      /*  if(checkBox.isChecked()==true){
-            startActivity(new Intent(this,MainActivity.class));
-        }else{
-            Toast.makeText(getApplicationContext(),"lol",Toast.LENGTH_SHORT).show();
-        }*/
-
     }
 }
