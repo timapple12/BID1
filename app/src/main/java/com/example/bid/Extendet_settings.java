@@ -21,7 +21,7 @@ public class Extendet_settings extends AppCompatActivity {
     EditText pasw1;
     View v2;
     Button but;
-    String data[]={"20","50","100","500","2000"};
+    String data[]={"OFF","20","50","100","500","2000"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,7 +41,8 @@ public class Extendet_settings extends AppCompatActivity {
         v2.setOnTouchListener(new OnSwipeTouchListener(Extendet_settings.this) {
             public void onSwipeRight() {
                 if (timeBetweenSending.getText().toString().trim().length() == 0 ||
-                        pasw.getText().toString().trim().length() == 0) {
+                        pasw.getText().toString().trim().length() == 0||
+                pasw1.getText().toString().trim().length()==0) {
                     Toast.makeText(getApplicationContext(), "Fill the edittext", Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(timeBetweenSending.getText().toString()) >= 5) {
                         if(Integer.parseInt(timeBetweenSending.getText().toString().trim())<60){
@@ -51,13 +52,12 @@ public class Extendet_settings extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Time between sending must be lower than 6000", Toast.LENGTH_SHORT).show();
                         }else
                     Log.i("lol", timeBetweenSending.getText().toString());
-                    System.out.println("haahahahah");
                     System.out.println(timeBetweenSending.getText().toString());
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                     editor.putString("key", "kek");
                     editor.putString("password", pasw.getText().toString().trim());
-                    editor.putString("password1", pasw.getText().toString().trim());
+                    editor.putString("password1", pasw1.getText().toString().trim());
                     editor.putString("sendtime", timeBetweenSending.getText().toString().trim());
                     editor.apply();
                 } else {
@@ -72,7 +72,7 @@ public class Extendet_settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editor.putString("password", pasw.getText().toString().trim());
-                editor.putString("password1", pasw.getText().toString().trim());
+                editor.putString("password1", pasw1.getText().toString().trim());
                 editor.putString("sendtime", timeBetweenSending.getText().toString().trim());
                 editor.apply();
                 startActivity(i);
@@ -86,29 +86,41 @@ public class Extendet_settings extends AppCompatActivity {
         spinner.setAdapter(adapter);
         spinner.setPrompt("Title");
         spinner.setSelection(prefs.getInt("spinner",0));
+        if(prefs.getString("spinn1"," ").length()!=1){
+
+        }
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
               switch (position){
                   case 0:
-                      editor.putFloat("spinn",Float.parseFloat(data[0]));
+                      editor.putString("spinn1",data[0]);
                       editor.apply();
                       break;
                   case 1:
                       editor.putFloat("spinn",Float.parseFloat(data[1]));
+                      editor.putString("spinn1","");
                       editor.apply();
                       break;
                   case 2:
                       editor.putFloat("spinn",Float.parseFloat(data[2]));
+                      editor.putString("spinn1","");
                       editor.apply();
                       break;
                   case 3:
                       editor.putFloat("spinn",Float.parseFloat(data[3]));
+                      editor.putString("spinn1","");
                       editor.apply();
                       break;
                   case 4:
                       editor.putFloat("spinn",Float.parseFloat(data[4]));
+                      editor.putString("spinn1","");
+                      editor.apply();
+                      break;
+                  case 5:
+                      editor.putFloat("spinn",Float.parseFloat(data[5]));
+                      editor.putString("spinn1","");
                       editor.apply();
                       break;
               }

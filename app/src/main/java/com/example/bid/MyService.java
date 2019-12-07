@@ -125,10 +125,12 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                 .setState(PlaybackStateCompat.STATE_PLAYING, 0, 0)
                 .build());
+
         new Thread(new Runnable() {
             @Override
             public void run() {
                 while(true) {
+                    if(prefs.getString("spinn1","").length()==0) {
                     powerTextView=Integer.parseInt(prefs.getString("power",null));
                     if(prefs.getString("latitude",null).trim().length()==1){
                         notRefreshedData();
@@ -137,13 +139,20 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                         longitude1=Double.parseDouble(prefs.getString("longitude",null));
                     double angular_distance;
 
-                    angular_distance=1000*1000*1000*2*Math.atan(Math.sqrt(Math.pow(Math.sin((latitude1-prefs1.getFloat("latitude2",0))/2),2)*
+                    /*angular_distance=1000*1000*1000*2*Math.atan(Math.sqrt(Math.pow(Math.sin((latitude1-prefs1.getFloat("latitude2",0))/2),2)*
                             Math.cos(latitude1)*Math.cos(prefs1.getFloat("latitude2",0))*
-                            Math.pow(Math.sin((longitude1-prefs1.getFloat("longitude2",0))/2),2)))*5/9;
+                            Math.pow(Math.sin((longitude1-prefs1.getFloat("longitude2",0))/2),2)))*6/9;*/
+                    angular_distance=(0.88)*1000*111.2 * Math.sqrt( (longitude1 - prefs1.getFloat("longitude2",0))*
+                            (longitude1 - prefs1.getFloat("longitude2",0)) + (latitude1-prefs1.getFloat("latitude2",0))*
+                            Math.cos(Math.PI*longitude1/180)*(latitude1-prefs1.getFloat("latitude2",0))*Math.cos(Math.PI*longitude1/180));
                     System.out.println(angular_distance);
-                       if(angular_distance>prefs.getFloat("spinn",0)){
-                           System.out.println("has been went out");
-                       }
+                    System.out.println(prefs.getFloat("spinn", 0));
+
+                        if (angular_distance > prefs.getFloat("spinn", 0)) {
+                            System.out.println("has been went out");
+
+                        }
+                    }
                     try {
                         Thread.sleep(20000);
                     } catch (InterruptedException e) {
