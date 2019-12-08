@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -153,13 +152,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(getApplicationContext(), "Chose the location of area that u want",
                         Toast.LENGTH_LONG).show();
 
+
+
                 googleMap.clear();
                 CircleOptions circleOptions=new CircleOptions()
+                        .strokeColor(0x110000FF)
+                        .fillColor(0x110000FF)
                         .center(new LatLng(point.latitude,point.longitude))
-                        .radius(1000)
-                        .strokeColor(Color.BLACK)
+                        .radius(prefs.getFloat("spinn",0))
                         .strokeWidth(4);
                 googleMap.addCircle(circleOptions);
+
                 googleMap.addMarker(new MarkerOptions().position(point));
                 editor.putString("latitude1", Double.toString( point.latitude));
                 editor.putString("longitude1", Double.toString(point.longitude));
