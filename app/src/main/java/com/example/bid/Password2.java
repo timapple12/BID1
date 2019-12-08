@@ -21,7 +21,10 @@ public class Password2 extends AppCompatActivity {
     CheckBox pasword;
     TextView forgot;
     int kostyl;
-    private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public void onClickBtn(View v){
+        startActivity(new Intent(this,Main_Window.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -53,8 +56,6 @@ public class Password2 extends AppCompatActivity {
                 }
             }
         });
-
-
     }
     public void onButton(View v){
         final SharedPreferences prefs = this.getSharedPreferences(
@@ -64,18 +65,16 @@ public class Password2 extends AppCompatActivity {
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }else{
-            Toast.makeText(getApplicationContext(),"Enter right password",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Enter the right password",Toast.LENGTH_SHORT).show();
         }
-
     }
-
     public void sendEmail(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
 
 
         String email =prefs.getString("mail",null).trim();
-        String subject = "Your password".trim();
+        String subject = "Your parent's password".trim();
         String message = prefs.getString("password1",null).trim();
 
         SendMail sm = new SendMail(this, email, subject, message);

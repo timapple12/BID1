@@ -34,6 +34,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public SharedPreferences prefs;
     private LocationListener listener;
     private LocationManager locationManager;
+
+
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
 
     @RequiresApi(api = Build.VERSION_CODES.M)

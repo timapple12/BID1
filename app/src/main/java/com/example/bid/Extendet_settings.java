@@ -43,13 +43,15 @@ public class Extendet_settings extends AppCompatActivity {
                 if (timeBetweenSending.getText().toString().trim().length() == 0 ||
                         pasw.getText().toString().trim().length() == 0||
                 pasw1.getText().toString().trim().length()==0) {
-                    Toast.makeText(getApplicationContext(), "Fill the edittext", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Fill the fields", Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(timeBetweenSending.getText().toString()) >= 5) {
                         if(Integer.parseInt(timeBetweenSending.getText().toString().trim())<60){
                             Toast.makeText(getApplicationContext(), "Time between sending must be higher than 60", Toast.LENGTH_SHORT).show();
+                            return;
                         }else
                         if(Integer.parseInt(timeBetweenSending.getText().toString().trim())>6000){
                             Toast.makeText(getApplicationContext(), "Time between sending must be lower than 6000", Toast.LENGTH_SHORT).show();
+                            return;
                         }else
                     Log.i("lol", timeBetweenSending.getText().toString());
                     System.out.println(timeBetweenSending.getText().toString());
@@ -81,7 +83,6 @@ public class Extendet_settings extends AppCompatActivity {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
         spinner.setPrompt("Title");
