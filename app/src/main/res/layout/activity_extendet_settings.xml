@@ -7,21 +7,6 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".Extendet_settings">
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="77dp"
-        android:layout_marginEnd="78dp"
-        android:text="To child"
-        android:textColor="@color/text"
-        app:layout_constraintBottom_toBottomOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="@+id/editText7"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView29"
-        app:layout_constraintVertical_bias="1.0" />
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -33,22 +18,36 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="68dp"
+        android:text="To child"
+        android:textColor="@color/text"
+        android:textSize="17sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView26"
+        app:layout_constraintEnd_toEndOf="@+id/editText7"
+        app:layout_constraintHorizontal_bias="0.029"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView26"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="192dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="240dp"
         android:buttonTint="@color/text"
         android:spinnerMode="dialog"
         android:textColor="@color/text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView27"
-        app:layout_constraintVertical_bias="1.0"></Spinner>
+        app:layout_constraintVertical_bias="0.351"></Spinner>
 
     <EditText
         android:id="@+id/editText"
@@ -63,22 +62,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.612"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.132" />
+        app:layout_constraintTop_toBottomOf="@+id/textView29"
+        app:layout_constraintVertical_bias="0.055" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="91dp"
         android:layout_height="19dp"
+        android:layout_marginStart="70dp"
         android:text="seconds"
         android:textColor="@color/text"
-        android:textSize="18sp"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.89"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/textView29"
+        app:layout_constraintVertical_bias="0.854" />
 
     <View
         android:id="@+id/view2"
@@ -105,7 +105,7 @@
         android:inputType="textPersonName"
         android:textColor="@color/text"
         android:textColorHint="#424242"
-        app:layout_constraintBottom_toBottomOf="@+id/editText9"
+        app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editText9"
         app:layout_constraintHorizontal_bias="0.0"
@@ -117,27 +117,26 @@
         android:id="@+id/button7"
         android:layout_width="193dp"
         android:layout_height="43dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/filedsset"
         android:text="Selest"
         android:textColorHint="@color/text"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.518"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintTop_toBottomOf="@+id/textView29"
+        app:layout_constraintVertical_bias="0.903" />
 
     <TextView
         android:id="@+id/textView24"
-        android:layout_width="404dp"
-        android:layout_height="34dp"
-        android:layout_marginTop="293dp"
-        android:text="Select the location center of the area where the baby should be"
+        android:layout_width="411dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="324dp"
+        android:text="Select the location center of the area where the baby should be:"
         android:textColor="@color/text"
-        android:textSize="18sp"
+        android:textSize="17sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
@@ -149,6 +148,7 @@
         android:layout_marginBottom="87dp"
         android:text="Passwords"
         android:textColor="@color/text"
+        android:textSize="17sp"
         app:layout_constraintBottom_toTopOf="@+id/textView24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -171,62 +171,61 @@
         android:id="@+id/textView27"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
-        android:layout_marginBottom="289dp"
+        android:layout_marginBottom="248dp"
         android:text="How far your child can go:"
         android:textColor="@color/text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView26"
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/editText9"
         android:layout_width="190dp"
         android:layout_height="60dp"
         android:layout_marginStart="215dp"
-        android:layout_marginTop="202dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
         android:textColor="@color/text"
         android:textColorHint="#424242"
-        app:layout_constraintBottom_toBottomOf="@+id/button7"
+        app:layout_constraintBottom_toBottomOf="@+id/editText7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="180dp"
+        android:layout_marginEnd="52dp"
         android:text="To parents"
         android:textColor="@color/text"
-        app:layout_constraintBottom_toTopOf="@+id/editText9"
-        app:layout_constraintEnd_toEndOf="@+id/editText9"
-        app:layout_constraintHorizontal_bias="0.683"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView29"
-        app:layout_constraintVertical_bias="1.0" />
+        android:textSize="17sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView26"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintStart_toStartOf="@+id/editText9"
+        app:layout_constraintTop_toTopOf="@+id/textView26"
+        app:layout_constraintVertical_bias="0.872" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="196dp"
         android:text="Time between sending"
         android:textColor="@color/text"
+        android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@+id/editText7"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintHorizontal_bias="0.873"
+        app:layout_constraintEnd_toStartOf="@+id/editText"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.256" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

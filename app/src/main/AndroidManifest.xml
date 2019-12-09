@@ -26,10 +26,6 @@
             android:screenOrientation="locked"></activity>
         <activity android:name=".MapsActivity" />
 
-        <service
-            android:name=".VibrationIntentService"
-            android:exported="false" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
@@ -45,12 +41,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name=".VibrationService"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="android.permission.RECEIVE_BOOT_COMPLETE" />
 
         <receiver
             android:name=".SensorRestarterBroadcastReceiver"

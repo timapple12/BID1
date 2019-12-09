@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -84,7 +85,7 @@ public class Main_Window extends AppCompatActivity {
     public void onTogglePressOn(){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-       // startService(new Intent(getBaseContext(),VibrationIntentService.class));
+
         startService(new Intent(getBaseContext(), MyService.class));
         if(prefs.getBoolean("r",true)==true){
             startService(new Intent(getBaseContext(), GPS_Service.class));
@@ -93,6 +94,18 @@ public class Main_Window extends AppCompatActivity {
     }
 
 
+    public void onBtnHelpClick(View v){
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("message/rfc822");
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"babyindangerapp@example.com"});
+        i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
+        i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+        try {
+            startActivity(Intent.createChooser(i, "Send mail..."));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getApplicationContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void onTogglePressOff(){
         MyService m =new MyService();
         m.stopSelf();

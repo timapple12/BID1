@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +38,7 @@ import java.util.concurrent.TimeUnit;
 public class MyService extends Service implements GoogleApiClient.ConnectionCallbacks  {
 
     private MediaSessionCompat mediaSession;
+    private MediaPlayer mediaPlayer;
     public static boolean a = true;
     private int count = 0;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -57,6 +59,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     @Override
     public void onCreate() {
 
+       mediaPlayer=MediaPlayer.create(this,R.raw.sound);
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -196,6 +199,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         super.onDestroy();
         Log.i("lol","stop service");
         a=false;
+        mediaPlayer.stop();
         handlerList.removeCallbacks(sendEmail_inThread);
         if(mReceiver!=null)
         {
@@ -281,6 +285,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
             if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
                 sendEmail();
+                mediaPlayer.start();
                 if(prefs1.getBoolean("r",true)==true){
                     String email =prefs1.getString("mail",null).trim();
                     String subject = "Your child in danger".trim();

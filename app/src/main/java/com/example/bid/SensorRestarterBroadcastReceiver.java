@@ -8,6 +8,7 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
     private int counter = 0;
     SharedPreferences prefs;
     private static boolean wasScreenOn = true;
+
     @Override
     public void onReceive(final Context context, final Intent intent) {
          prefs = context.getSharedPreferences("com.example.bid",
@@ -43,4 +44,5 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
             }
 
         }
+
 }
