@@ -61,11 +61,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                 "com.example.bid", Context.MODE_PRIVATE);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         doing();
-        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_USER_PRESENT);
-        mReceiver = new SensorRestarterBroadcastReceiver();
-        registerReceiver(mReceiver, filter);
+
         super.onCreate();
        final SharedPreferences prefs = this.getSharedPreferences(
                "com.example.bid", Context.MODE_PRIVATE);
@@ -81,40 +77,15 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     public void stopGps(){
         stopService(new Intent(this,GPS_Service.class));
     }
-    private Runnable locationSpy=new Runnable() {
-        @Override
-        public void run() {
 
-            powerTextView=Integer.parseInt(prefs1.getString("power",null));
-            if(prefs1.getString("latitude",null).trim().length()==1){
-                notRefreshedData();
-            }else
-                latitude1=Double.parseDouble(prefs1.getString("latitude",null));
-            longitude1=Double.parseDouble(prefs1.getString("longitude",null));
-            double angular_distance;
-
-            angular_distance=1000*2*Math.atan(Math.sqrt(Math.pow(Math.sin((latitude1-prefs1.getFloat("latitude2",0))/2),2)*
-                    Math.cos(latitude1)*Math.cos(prefs1.getFloat("latitude2",0))*
-                    Math.pow(Math.sin((longitude1-prefs1.getFloat("longitude2",0))/2),2)));
-
-            System.out.println(angular_distance);
-            if (Math.abs(prefs1.getFloat("latitude2",0) - latitude1) > 0.001 ||
-                    Math.abs(prefs1.getFloat("longitude2",0) - longitude1) > 0.001) {
-                sendEmail2();
-                System.out.println("geoloc");
-            }
-            try {
-                Thread.sleep(15000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-    };
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void doing(){
-
-        SensorRestarterBroadcastReceiver sensorRestarterBroadcastReceiver=new SensorRestarterBroadcastReceiver();
+        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        mReceiver = new SensorRestarterBroadcastReceiver();
+        mReceiver.goAsync();
+        registerReceiver(mReceiver, filter);
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();

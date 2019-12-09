@@ -27,13 +27,12 @@ public class Settings extends AppCompatActivity {
     String mailStr_text;
     RadioButton r;
     RadioButton r1;
-    View v;
+    View v,v2;
     EditText phoneNumb;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);

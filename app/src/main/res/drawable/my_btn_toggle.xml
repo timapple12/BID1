@@ -17,9 +17,10 @@
 
         <shape android:shape="oval">
 
-
-            <gradient android:startColor="#C03EA9"
-                android:endColor="#71E65B"/>
+            <stroke android:width="2dip" android:color="#7C6700"
+                />
+            <gradient android:startColor="#D17E37"
+            android:endColor="#FF9900"/>
         </shape>
 
     </item>

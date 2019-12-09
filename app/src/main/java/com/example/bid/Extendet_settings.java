@@ -85,7 +85,7 @@ public class Extendet_settings extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setAdapter(adapter);
-        spinner.setPrompt("Title");
+        spinner.setPrompt("Choose distance in meters");
         spinner.setSelection(prefs.getInt("spinner",0));
         if(prefs.getString("spinn1"," ").length()!=1){
 
