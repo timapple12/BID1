@@ -84,13 +84,13 @@ public class Settings extends AppCompatActivity {
                     }else
                     {
                         Log.i("Settings", "right");
-                        mailStr = mail.getText().toString().trim();
-                        mailStr_text = mail_text.getText().toString().trim();
-                        editor.putString("mail", mailStr.trim());
-                        editor.putString("mail_text", mailStr_text.trim());
-                        editor.putString("volume", volumeAct.getText().toString().trim());
-                        editor.putString("numb", phoneNumb.getText().toString().trim());
-                        editor.putString("power", powerAct.getText().toString().trim());
+                        mailStr = mail.getText().toString();
+                        mailStr_text = mail_text.getText().toString();
+                        editor.putString("mail", mailStr);
+                        editor.putString("mail_text", mailStr_text);
+                        editor.putString("volume", volumeAct.getText().toString());
+                        editor.putString("numb", phoneNumb.getText().toString());
+                        editor.putString("power", powerAct.getText().toString());
                         editor.putBoolean("r", r.isChecked());
                         editor.putBoolean("r1", r1.isChecked());
                         editor.putInt("power1",Integer.parseInt(powerAct.getText().toString()));
@@ -100,13 +100,13 @@ public class Settings extends AppCompatActivity {
                 }
                 public void onSwipeLeft() {
                     Log.i("Settings","left");
-                    mailStr = mail.getText().toString().trim();
-                    mailStr_text = mail_text.getText().toString().trim();
-                    editor.putString("mail", mailStr.trim());
-                    editor.putString("mail_text", mailStr_text.trim());
-                    editor.putString("volume", volumeAct.getText().toString().trim());
-                    editor.putString("numb", phoneNumb.getText().toString().trim());
-                    editor.putString("power", powerAct.getText().toString().trim());
+                    mailStr = mail.getText().toString();
+                    mailStr_text = mail_text.getText().toString();
+                    editor.putString("mail", mailStr);
+                    editor.putString("mail_text", mailStr_text);
+                    editor.putString("volume", volumeAct.getText().toString());
+                    editor.putString("numb", phoneNumb.getText().toString());
+                    editor.putString("power", powerAct.getText().toString());
                     editor.putBoolean("r", r.isChecked());
                     editor.putBoolean("r1", r1.isChecked());
                     editor.apply();

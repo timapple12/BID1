@@ -1,14 +1,17 @@
 package com.example.bid;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -18,17 +21,27 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 public class Main_Window extends AppCompatActivity {
-    public double latn;
-    public double lon;
-
     SharedPreferences prefs1;
-
     Context context;
     ToggleButton toggleButton;
+    private int RequestCode=100;
+    private PopupWindow mPopupWindow;
+    private Context mContext;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /*if(prefs1.getString("password","111111").trim().length()==6||
+                prefs1.getString("password1","111111").trim().length()==6||
+                Integer.parseInt(prefs1.getString("volume","0").trim())<=5||
+                Integer.parseInt(prefs1.getString("power","0").trim())<=5||
+                Integer.parseInt(prefs1.getString("numb","0").trim())<=5||
+                prefs1.getString("mail","111111").trim().length()==6||
+                prefs1.getString("mail_text","111111").trim().length()==6){
+            Toast.makeText(getApplicationContext(),"Fill all fields to correct work",Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,Settings.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }*/
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
 
@@ -56,7 +69,10 @@ public class Main_Window extends AppCompatActivity {
         {
             onTogglePressOn();
         }
-
+        if(toggleButton.isChecked()==false)
+        {
+            onTogglePressOff();
+        }
         toggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.P)
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -97,7 +113,7 @@ public class Main_Window extends AppCompatActivity {
     public void onBtnHelpClick(View v){
         Intent i = new Intent(Intent.ACTION_SEND);
         i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"babyindangerapp@example.com"});
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"babyindangerapp@gmail.com"});
         i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
         i.putExtra(Intent.EXTRA_TEXT   , "body of email");
         try {
@@ -106,34 +122,43 @@ public class Main_Window extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "There are no email clients installed.", Toast.LENGTH_SHORT).show();
         }
     }
+    public void btn(View v){
+    mContext = getApplicationContext();
+    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+    // Inflate the custom layout/view
+    View customView = inflater.inflate(R.layout.custom,null);
+
+    mPopupWindow = new PopupWindow(
+            customView,
+            ActionBar.LayoutParams.WRAP_CONTENT,
+            ActionBar.LayoutParams.WRAP_CONTENT
+    );
+}
+
     public void onTogglePressOff(){
         MyService m =new MyService();
         m.stopSelf();
         Intent myService = new Intent(Main_Window.this, MyService.class);
         stopService(myService);
-       // stopService(new Intent(this, VibrationService.class));
        stopService(new Intent(this, GPS_Service.class));
     }
    public void onButton_Settings(View v){
         Intent intent = new Intent(this,Password2.class);
         startActivity(intent);
        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-
-
-
     }
 
     private boolean runtime_permissions() {
         if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},RequestCode);
 
             return true;
         }
         return false;
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override

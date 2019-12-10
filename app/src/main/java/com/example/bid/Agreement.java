@@ -33,11 +33,11 @@ public class Agreement extends AppCompatActivity {
             editor.putString("volume", "0");
             editor.putString("numb", "0");
             editor.putString("power", "0");
-            editor.putString("latitude","0");
-            editor.putString("longitude","0");
+            editor.putString("latitude","");
+            editor.putString("longitude","");
             editor.putString("password"," ");
             editor.putString("password1"," ");
-            editor.putString("sendtime","1");
+            editor.putString("sendtime","60");
 
             editor.putBoolean("r", true);
             editor.putBoolean("r1", false);

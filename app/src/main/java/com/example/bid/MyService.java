@@ -49,25 +49,51 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     int powerTextView=0;
     private BroadcastReceiver mReceiver;
     private GoogleApiClient googleApiClient;
+    private boolean activated;
 
     public MyService() {
     }
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onCreate() {
 
+        super.onCreate();
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        if(prefs.getString("latitude","1").trim().length()==1){
+            notRefreshedData();
+        }
+        mediaSession = new MediaSessionCompat(this, "PlayerService");
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
+                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
+                .setState(PlaybackStateCompat.STATE_PLAYING, 0, 0)
+                .build());
        mediaPlayer=MediaPlayer.create(this,R.raw.sound);
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        doing();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(prefs.getString("latitude","1").trim().length()==1){
+                    notRefreshedData();
+                }
+                doing();
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+                filter.addAction(Intent.ACTION_SCREEN_OFF);
+                filter.addAction(Intent.ACTION_USER_PRESENT);
+                mReceiver = new SensorRestarterBroadcastReceiver();
+                registerReceiver(mReceiver, filter);
 
-        super.onCreate();
-       final SharedPreferences prefs = this.getSharedPreferences(
-               "com.example.bid", Context.MODE_PRIVATE);
+            }
+        }).start();
        if(prefs.getBoolean("r",true)==true){
            startGps();
        }else if(prefs.getBoolean("r",true)==false){
@@ -83,39 +109,24 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     public void doing(){
-        final IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-        filter.addAction(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_USER_PRESENT);
-        mReceiver = new SensorRestarterBroadcastReceiver();
-        mReceiver.goAsync();
-        registerReceiver(mReceiver, filter);
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();
         Log.i("gdf","service started");
-        mediaSession = new MediaSessionCompat(this, "PlayerService");
-        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
-                MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
-        mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
-                .setState(PlaybackStateCompat.STATE_PLAYING, 0, 0)
-                .build());
-
+        powerTextView=Integer.parseInt(prefs.getString("power",null));
         new Thread(new Runnable() {
+
             @Override
             public void run() {
                 while(true) {
                     if(prefs.getString("spinn1","").length()==0) {
-                    powerTextView=Integer.parseInt(prefs.getString("power",null));
-                    if(prefs.getString("latitude",null).trim().length()==1){
+
+                    if(prefs.getString("latitude","1").trim().length()==1){
                         notRefreshedData();
                     }else
                         latitude1=Double.parseDouble(prefs.getString("latitude",null));
                         longitude1=Double.parseDouble(prefs.getString("longitude",null));
                     double angular_distance;
-
-                    /*angular_distance=1000*1000*1000*2*Math.atan(Math.sqrt(Math.pow(Math.sin((latitude1-prefs1.getFloat("latitude2",0))/2),2)*
-                            Math.cos(latitude1)*Math.cos(prefs1.getFloat("latitude2",0))*
-                            Math.pow(Math.sin((longitude1-prefs1.getFloat("longitude2",0))/2),2)))*6/9;*/
                     angular_distance=(0.88)*1000*111.2 * Math.sqrt( (longitude1 - prefs1.getFloat("longitude2",0))*
                             (longitude1 - prefs1.getFloat("longitude2",0)) + (latitude1-prefs1.getFloat("latitude2",0))*
                             Math.cos(Math.PI*longitude1/180)*(latitude1-prefs1.getFloat("latitude2",0))*Math.cos(Math.PI*longitude1/180));
@@ -124,11 +135,11 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
                         if (angular_distance > prefs.getFloat("spinn", 0)) {
                             System.out.println("has been went out");
-
+                            sendEmail2();
                         }
                     }
                     try {
-                        Thread.sleep(20000);
+                        Thread.sleep(60000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -138,9 +149,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 while (true) {
-
                     try {
                         if(prefs.getBoolean("r",true)==true){
                             startGps();
@@ -152,28 +161,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                             editor.putString("count","0");
                            editor.apply();
                         }
-                        VolumeProviderCompat myVolumeProvider =
-                                new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE,0,0) {
-                                    @Override
-                                    public void onAdjustVolume(int direction) {
-                                        if(a==false){
-                                            return;
-                                        }
-                                        if(direction==1||direction==-1){
-                                            count++;
-                                            Log.i("lol",Integer.toString(count));
-                                            if(count==Integer.parseInt(prefs.getString("volume",null))){
-                                                count=0;
 
-                                                handlerList.postDelayed(sendEmail_inThread, 1);
-                                            }
-
-                                        }
-                                    }
-                                };
-
-                        mediaSession.setPlaybackToRemote(myVolumeProvider);
-                        mediaSession.setActive(a);
 
                         TimeUnit.MILLISECONDS.sleep(500);
 
@@ -183,7 +171,34 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                     editor.apply();
                 }
             }
-        }).start();//LOCATIONSPY ЗРОБИТИ В НОВОМУ ПОТОЦІ НЕ РАНЕЙБЛ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!А ТО БУДЕ ПЗДЦ.
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                VolumeProviderCompat myVolumeProvider =
+                        new VolumeProviderCompat(VolumeProviderCompat.VOLUME_CONTROL_RELATIVE,0,0) {
+                            @Override
+                            public void onAdjustVolume(int direction) {
+                                if(a==false){
+                                    return;
+                                }
+                                if(direction==1||direction==-1){
+                                    count++;
+                                    Log.i("lol",Integer.toString(count));
+                                    if(count==Integer.parseInt(prefs.getString("volume",null))){
+                                        count=0;
+                                        activated=false;
+                                        handlerList.postDelayed(sendEmail_inThread, 1);
+                                    }
+
+                                }
+                            }
+                        };
+
+                mediaSession.setPlaybackToRemote(myVolumeProvider);
+                mediaSession.setActive(a);
+            }
+        }).start();
         thread();
 
     }
@@ -197,10 +212,14 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     @Override
     public void onDestroy() {
         super.onDestroy();
+        if(activated==false){
+            sendEmail3();
+        }
         Log.i("lol","stop service");
         a=false;
         mediaPlayer.stop();
         handlerList.removeCallbacks(sendEmail_inThread);
+        handlerList.removeCallbacks(sendEmail_inThread2);
         if(mReceiver!=null)
         {
             unregisterReceiver(mReceiver);
@@ -213,7 +232,6 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
 
-
         String email =prefs.getString("mail",null).trim();
         String subject = "Your child have been leaved the zone".trim();
         String message = "Your child have been leaved the zone".trim();
@@ -223,11 +241,22 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
 
     }
+    public void sendEmail3(){
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
 
+
+        String email =prefs.getString("mail",null).trim();
+        String subject = "The security mode have been disabled".trim();
+        String message = "I'm in safe".trim();
+
+        SendMail sm = new SendMail(this, email, subject, message);
+        sm.execute();
+
+
+    }
 
     public void sendEmail(){
-
-
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();
@@ -273,7 +302,15 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             v.vibrate(200);
         }
     }
-
+    private Runnable sendEmail_inThread2=new Runnable() {
+        @RequiresApi(api = Build.VERSION_CODES.P)
+        @Override
+        public void run() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                doing();
+            }
+        }
+    };
     //  Написати логіку збереження даних з edittext час між відсиланням повідомлення
     private Runnable sendEmail_inThread=new Runnable() {
 
@@ -281,8 +318,9 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         @Override
         public void run() {
             System.out.println(prefs1.getString("count",null));
-
-
+            if(prefs1.getString("latitude","1").trim().length()==1){
+                notRefreshedData();
+            }
             if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
                 sendEmail();
                 mediaPlayer.start();
@@ -341,6 +379,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         }).start();
     }
     protected void notRefreshedData(){
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = prefs.edit();

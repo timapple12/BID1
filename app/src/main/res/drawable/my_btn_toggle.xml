@@ -3,7 +3,7 @@
 
     <item>
         <shape android:shape="oval" >
-            <solid android:color="#BDBDBD"/>
+
             <corners android:radius="9dp"/>
         </shape>
     </item>
@@ -16,11 +16,11 @@
 
 
         <shape android:shape="oval">
-
-            <stroke android:width="2dip" android:color="#7C6700"
                 />
-            <gradient android:startColor="#D17E37"
-            android:endColor="#FF9900"/>
+            <stroke android:width="4dip" android:color="#F5C858"
+                />
+            <gradient android:startColor="#FFAD73"
+                android:endColor="#FDB444"/>
         </shape>
 
     </item>
