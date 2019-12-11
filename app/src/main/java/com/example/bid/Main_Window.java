@@ -1,14 +1,14 @@
 package com.example.bid;
 
 import android.Manifest;
-import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.PopupWindow;
@@ -123,17 +123,26 @@ public class Main_Window extends AppCompatActivity {
         }
     }
     public void btn(View v){
-    mContext = getApplicationContext();
-    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
+        View titleView = getLayoutInflater().inflate(R.layout.alert, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(Main_Window.this);
+        builder.setTitle("About us");
+        builder.setMessage("This app is designed by:\n" +
+                "@Jaicee_meth_maker\n" +
+                "@grrryga\n"+
+                "@johny_apasnyy\n"+
+                "@betsq\n"+
+                "@vovochka_coder");
+        builder.setCancelable(false);
+        builder.setView(titleView);
+        builder.setNegativeButton("ОК",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
 
-    // Inflate the custom layout/view
-    View customView = inflater.inflate(R.layout.custom,null);
-
-    mPopupWindow = new PopupWindow(
-            customView,
-            ActionBar.LayoutParams.WRAP_CONTENT,
-            ActionBar.LayoutParams.WRAP_CONTENT
-    );
+        alert.show();
 }
 
     public void onTogglePressOff(){

@@ -54,6 +54,15 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     public MyService() {
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        System.out.println(prefs.getString("longitude","location")+5);
+        System.out.println(5);
+        return super.onStartCommand(intent, flags, startId);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onCreate() {
@@ -61,9 +70,11 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         super.onCreate();
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
+        System.out.println(prefs.getString("latitude","location"));
         if(prefs.getString("latitude","1").trim().length()==1){
             notRefreshedData();
         }
+
         mediaSession = new MediaSessionCompat(this, "PlayerService");
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
