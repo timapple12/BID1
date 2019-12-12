@@ -145,7 +145,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final LatLng latlng = new LatLng(prefs.getFloat("latitude2",0), prefs.getFloat("longitude2",0));
         MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("Your home location");
         //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 3));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 8));
+        CircleOptions circleOptions=new CircleOptions()
+                .strokeColor(0x110000FF)
+                .fillColor(0x110000FF)
+                .center(latlng)
+                .radius(prefs.getFloat("spinn",0))
+                .strokeWidth(4);
+        googleMap.addCircle(circleOptions);
         googleMap.addMarker(markerOptions);
         googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 

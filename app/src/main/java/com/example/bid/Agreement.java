@@ -33,8 +33,8 @@ public class Agreement extends AppCompatActivity {
             editor.putString("volume", "0");
             editor.putString("numb", "0");
             editor.putString("power", "0");
-            editor.putString("latitude","");
-            editor.putString("longitude","");
+            editor.putString("latitude","1");
+            editor.putString("longitude","1");
             editor.putString("password"," ");
             editor.putString("password1"," ");
             editor.putString("sendtime","60");
