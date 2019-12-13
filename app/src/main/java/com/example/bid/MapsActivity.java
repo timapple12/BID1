@@ -92,9 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onLocationChanged(Location location) {
                 Log.i("p", "zap");
-                /*editor.putFloat("latitude", (float) location.getLatitude());
-                editor.putFloat("longitude", (float) location.getLongitude());*/
-                // editor.apply();
+
                 Intent i = new Intent("location_update");
                 i.putExtra("latitude", location.getLatitude());
                 i.putExtra("longitude", location.getLongitude());
@@ -139,12 +137,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         System.out.println("aaaaaaaaaaaaaaaaaaaaaaahuh");
+        final LatLng latlng;
         final SharedPreferences.Editor editor = prefs.edit();
         final Intent intent = new Intent(this, Extendet_settings.class);
 
-        final LatLng latlng = new LatLng(prefs.getFloat("latitude2",0), prefs.getFloat("longitude2",0));
-        MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("Your home location");
-        //googleMap.animateCamera(CameraUpdateFactory.newLatLng(latlng));
+        if(prefs.getFloat("latitude2",0)==0){
+            latlng= new LatLng(Float.parseFloat(prefs.getString("latitude","0")),
+                    Float.parseFloat(prefs.getString("longitude","0")));
+        }else{
+            latlng= new LatLng(prefs.getFloat("latitude2",0), prefs.getFloat("longitude2",0));
+
+        }
+        MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("Center of area");
+
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 8));
         CircleOptions circleOptions=new CircleOptions()
                 .strokeColor(0x110000FF)
@@ -158,7 +163,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onMapClick(LatLng point) {
-                Toast.makeText(getApplicationContext(), "Chose the location of area that u want",
+                Toast.makeText(getApplicationContext(), "Chose the location of area that you want",
                         Toast.LENGTH_LONG).show();
 
 
@@ -180,7 +185,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 editor.apply();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MapsActivity.this);
                 builder.setTitle("Alert");
-                builder.setMessage("Are u sure?");
+                builder.setMessage("Are you sure?");
                 builder.setCancelable(false);
                 builder.setNeutralButton("NO",
                         new DialogInterface.OnClickListener() {
@@ -192,6 +197,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 startActivity(intent);
+                                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                             }
                         });
                 AlertDialog alert = builder.create();

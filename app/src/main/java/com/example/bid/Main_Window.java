@@ -11,7 +11,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -25,8 +24,6 @@ public class Main_Window extends AppCompatActivity {
     Context context;
     ToggleButton toggleButton;
     private int RequestCode=100;
-    private PopupWindow mPopupWindow;
-    private Context mContext;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -64,7 +61,6 @@ public class Main_Window extends AppCompatActivity {
                 "com.example.bid", Context.MODE_PRIVATE);
         toggleButton.setChecked(prefs.getBoolean("service",true));
         final SharedPreferences.Editor editor = prefs.edit();
-       // toggleButton.setChecked(prefs.getBoolean("toggle",true));
         if(toggleButton.isChecked()==true)
         {
             onTogglePressOn();
@@ -83,11 +79,7 @@ public class Main_Window extends AppCompatActivity {
                     editor.putBoolean("toggle",isChecked);
                     editor.apply();
                     onTogglePressOn();
-
-
                 }else if(isChecked==false){
-
-                   // m.stopSelf();
                     onTogglePressOff();
                     editor.putBoolean("toggle",isChecked);
                     editor.apply();
@@ -123,7 +115,6 @@ public class Main_Window extends AppCompatActivity {
         }
     }
     public void btn(View v){
-        View titleView = getLayoutInflater().inflate(R.layout.alert, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(Main_Window.this);
         builder.setTitle("About us");
         builder.setMessage("This app is designed by:\n" +
@@ -133,7 +124,6 @@ public class Main_Window extends AppCompatActivity {
                 "@betsq\n"+
                 "@vovochka_coder");
         builder.setCancelable(false);
-        builder.setView(titleView);
         builder.setNegativeButton("ОК",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -143,11 +133,12 @@ public class Main_Window extends AppCompatActivity {
         AlertDialog alert = builder.create();
 
         alert.show();
+        overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right);
 }
 
     public void onTogglePressOff(){
         MyService m =new MyService();
-        m.stopSelf();
+
         Intent myService = new Intent(Main_Window.this, MyService.class);
         stopService(myService);
        stopService(new Intent(this, GPS_Service.class));

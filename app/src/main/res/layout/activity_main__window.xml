@@ -4,14 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@drawable/gradient_texture_color_129394_3840x2160"
     tools:context=".Main_Window">
-
-    <ImageView
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/gradient_texture_color_129394_3840x2160"/>
 
     <TextView
         android:id="@+id/textView"

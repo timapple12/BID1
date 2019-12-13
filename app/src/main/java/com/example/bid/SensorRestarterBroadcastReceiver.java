@@ -19,7 +19,7 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(8000);
+                    Thread.sleep(Integer.parseInt(prefs.getString("power","1"))*1200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

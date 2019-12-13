@@ -54,14 +54,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
     public MyService() {
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        final SharedPreferences prefs = this.getSharedPreferences(
-                "com.example.bid", Context.MODE_PRIVATE);
-        System.out.println(prefs.getString("longitude","location")+5);
-        System.out.println(5);
-        return super.onStartCommand(intent, flags, startId);
-    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -235,7 +228,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         {
             unregisterReceiver(mReceiver);
         }
-        stopSelf();
+        mediaSession.setActive(false);
 
     }
 
