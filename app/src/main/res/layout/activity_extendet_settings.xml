@@ -23,18 +23,17 @@
     <TextView
         android:id="@+id/textView9"
         android:layout_width="85dp"
-        android:layout_height="27dp"
-        android:background="@drawable/filedsset"
+        android:layout_height="30dp"
         android:text="To child"
         android:textAlignment="center"
         android:textColor="@color/text"
-        android:textSize="17sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/textView26"
         app:layout_constraintEnd_toEndOf="@+id/editText7"
-        app:layout_constraintHorizontal_bias="0.315"
+        app:layout_constraintHorizontal_bias="0.589"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView26"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -48,16 +47,17 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView27"
-        app:layout_constraintVertical_bias="0.351"></Spinner>
+        app:layout_constraintVertical_bias="0.54"></Spinner>
 
     <EditText
         android:id="@+id/editText"
         android:layout_width="60dp"
-        android:layout_height="39dp"
+        android:layout_height="40dp"
         android:backgroundTint="#FFAD73"
         android:ems="10"
         android:hint="40-6000"
         android:inputType="number"
+        android:textAlignment="center"
         android:textColor="@color/text"
         android:textColorHint="#424242"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,12 +65,12 @@
         app:layout_constraintHorizontal_bias="0.612"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29"
-        app:layout_constraintVertical_bias="0.055" />
+        app:layout_constraintVertical_bias="0.046" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="91dp"
-        android:layout_height="37dp"
+        android:layout_height="30dp"
         android:layout_marginStart="70dp"
         android:background="@drawable/filedsset"
         android:text="seconds"
@@ -78,7 +78,7 @@
 
 
         android:textColor="@color/text"
-        android:textSize="19sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -100,10 +100,10 @@
 
     <EditText
         android:id="@+id/editText7"
-        android:layout_width="190dp"
+        android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginStart="7dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="132dp"
         android:layout_marginEnd="6dp"
         android:autofillHints=""
         android:backgroundTint="#FFAD73"
@@ -112,13 +112,13 @@
         android:inputType="textPersonName"
         android:textColor="@color/text"
         android:textColorHint="#424242"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
+        app:layout_constraintBottom_toBottomOf="@+id/textView24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editText9"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.039"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.01" />
 
     <Button
         android:id="@+id/button7"
@@ -126,22 +126,22 @@
         android:layout_height="43dp"
         android:background="@drawable/filedsset"
         android:text="Selest"
-        android:textColorHint="@color/text"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toTopOf="@+id/spinner"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29"
-        app:layout_constraintVertical_bias="0.903" />
+        app:layout_constraintVertical_bias="0.897" />
 
     <TextView
         android:id="@+id/textView24"
-        android:layout_width="411dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="324dp"
+        android:layout_width="410dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="376dp"
         android:text="Select the location center of the area where the baby should be:"
+        android:textAlignment="center"
         android:textColor="@color/text"
-        android:textSize="17sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -151,17 +151,15 @@
         android:id="@+id/textView26"
         android:layout_width="113dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="87dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/filedsset"
         android:text="Passwords"
         android:textAlignment="center"
         android:textColor="@color/text"
-        android:textSize="17sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView24"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <TextView
         android:id="@+id/textView29"
@@ -181,9 +179,10 @@
         android:id="@+id/textView27"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="248dp"
+        android:layout_marginBottom="224dp"
         android:text="How far your child can go:"
         android:textColor="@color/text"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.487"
@@ -193,18 +192,19 @@
 
     <EditText
         android:id="@+id/editText9"
-        android:layout_width="190dp"
+        android:layout_width="150dp"
         android:layout_height="60dp"
         android:layout_marginStart="215dp"
         android:backgroundTint="#FFAD73"
         android:ems="10"
+        android:hint="parent's password"
         android:inputType="textPersonName"
         android:text="Name"
         android:textColor="@color/text"
         android:textColorHint="#424242"
         app:layout_constraintBottom_toBottomOf="@+id/editText7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.565"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="1.0" />
@@ -212,33 +212,33 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="106dp"
-        android:layout_height="31dp"
+        android:layout_height="30dp"
         android:layout_marginTop="180dp"
-        android:background="@drawable/filedsset"
+
         android:text="To parents"
         android:textAlignment="center"
         android:textColor="@color/text"
-        android:textSize="17sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView26"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.788"
+        app:layout_constraintHorizontal_bias="0.328"
         app:layout_constraintStart_toStartOf="@+id/editText9"
         app:layout_constraintTop_toTopOf="@+id/textView26"
-        app:layout_constraintVertical_bias="0.906" />
+        app:layout_constraintVertical_bias="0.833" />
 
     <TextView
         android:id="@+id/textView11"
-        android:layout_width="183dp"
-        android:layout_height="35dp"
+        android:layout_width="189dp"
+        android:layout_height="30dp"
         android:background="@drawable/filedsset"
         android:text="Time between sending"
         android:textAlignment="center"
         android:textColor="@color/text"
-        android:textSize="17sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/editText7"
         app:layout_constraintEnd_toStartOf="@+id/editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView29"
-        app:layout_constraintVertical_bias="0.2" />
+        app:layout_constraintVertical_bias="0.165" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

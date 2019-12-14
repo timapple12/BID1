@@ -53,32 +53,27 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
     public MyService() {
     }
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
-    public void onCreate() {
-
-        super.onCreate();
+    public int onStartCommand(Intent intent, int flags, int startId) {
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         System.out.println(prefs.getString("latitude","location"));
         if(prefs.getString("latitude","1").trim().length()==1){
             notRefreshedData();
         }
-
+        System.out.println(prefs.getString("latitude","location"));
         mediaSession = new MediaSessionCompat(this, "PlayerService");
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
                 MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                 .setState(PlaybackStateCompat.STATE_PLAYING, 0, 0)
                 .build());
-       mediaPlayer=MediaPlayer.create(this,R.raw.sound);
+        mediaPlayer=MediaPlayer.create(this,R.raw.sound);
         prefs1 = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         new Thread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
             public void run() {
                 if(prefs.getString("latitude","1").trim().length()==1){
@@ -98,11 +93,20 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
             }
         }).start();
-       if(prefs.getBoolean("r",true)==true){
-           startGps();
-       }else if(prefs.getBoolean("r",true)==false){
-           stopGps();
-       }
+        if(prefs.getBoolean("r",true)==true){
+            startGps();
+        }else if(prefs.getBoolean("r",true)==false){
+            stopGps();
+        }
+        return START_STICKY;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
+    @Override
+    public void onCreate() {
+
+        super.onCreate();
+
     }
     public void startGps(){
         startService(new Intent(this,GPS_Service.class));
@@ -327,7 +331,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             }
             if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
                 sendEmail();
-                mediaPlayer.start();
+                //mediaPlayer.start();                                                       //Для фану
                 if(prefs1.getBoolean("r",true)==true){
                     String email =prefs1.getString("mail",null).trim();
                     String subject = "Your child in danger".trim();

@@ -9,10 +9,11 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="311dp"
-        android:layout_height="55dp"
+        android:layout_width="324dp"
+        android:layout_height="66dp"
         android:accessibilityLiveRegion="@android:integer/config_mediumAnimTime"
         android:background="@drawable/filedsset"
+        android:orientation="horizontal"
         android:text=" Security mode"
         android:textAlignment="center"
         android:textColor="#292150"
@@ -50,10 +51,10 @@
         android:textColor="#292150"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.247"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/button2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.891" />
+        app:layout_constraintVertical_bias="0.888" />
 
     <Button
         android:id="@+id/button4"
@@ -64,16 +65,16 @@
         android:text="About us"
         android:textColor="#292150"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.745"
+        app:layout_constraintEnd_toEndOf="@+id/button2"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.891" />
+        app:layout_constraintVertical_bias="0.888" />
 
     <ToggleButton
         android:id="@+id/toggleButton"
-        android:layout_width="228dp"
-        android:layout_height="228dp"
+        android:layout_width="225dp"
+        android:layout_height="225dp"
 
         android:background="@drawable/my_btn_toggle"
         android:text="SOS"
