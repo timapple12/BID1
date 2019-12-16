@@ -4,72 +4,77 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_texture_color_129394_3840x2160"
+    android:background="@drawable/background"
     tools:context=".Main_Window">
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="324dp"
-        android:layout_height="66dp"
+        android:layout_width="376dp"
+        android:layout_height="56dp"
         android:accessibilityLiveRegion="@android:integer/config_mediumAnimTime"
         android:background="@drawable/filedsset"
         android:orientation="horizontal"
-        android:text=" Security mode"
+        android:text=" SECURITY MODE"
         android:textAlignment="center"
-        android:textColor="#292150"
+        android:textColor="@color/text"
         android:textSize="45sp"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="0.067" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="266dp"
         android:layout_height="57dp"
+        android:autoText="true"
         android:background="@drawable/filedsset"
         android:onClick="onButton_Settings"
         android:text="Settings"
-        android:textColor="#292150"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.761" />
+        app:layout_constraintVertical_bias="0.808" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:background="@drawable/filedsset"
+        android:background="@drawable/filedssec"
         android:onClick="onBtnHelpClick"
         android:text="Help center"
-        android:textColor="#292150"
+        android:textColor="@color/text"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/button2"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.926" />
 
     <Button
         android:id="@+id/button4"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:background="@drawable/filedsset"
+        android:background="@drawable/filedssec"
         android:onClick="btn"
         android:text="About us"
-        android:textColor="#292150"
+        android:textColor="@color/text"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/button2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.888" />
+        app:layout_constraintVertical_bias="0.926" />
 
     <ToggleButton
         android:id="@+id/toggleButton"
@@ -77,16 +82,15 @@
         android:layout_height="225dp"
 
         android:background="@drawable/my_btn_toggle"
-        android:text="SOS"
+        android:checked="false"
         android:textAlignment="center"
-        android:textColor="#292150"
+        android:textColor="@color/text"
         android:textOff="OFF"
-        android:textSize="40sp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.433" />
+        app:layout_constraintVertical_bias="0.415" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

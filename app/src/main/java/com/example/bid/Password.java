@@ -24,7 +24,8 @@ public class Password extends AppCompatActivity {
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password);
         pasw=(EditText)findViewById(R.id.pasw2);
@@ -36,7 +37,7 @@ public class Password extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 ++kostyl;
                 if(kostyl==2) {
-                    Toast.makeText(getApplicationContext(), "Text", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Password sent on "+prefs.getString("mail",null).trim(), Toast.LENGTH_SHORT).show();
                     sendEmail();
                     kostyl=0;
                 }

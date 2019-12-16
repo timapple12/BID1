@@ -35,7 +35,7 @@ public class Extendet_settings extends AppCompatActivity {
         pasw = (EditText) findViewById(R.id.editText7);
         pasw.setText(prefs.getString("password", null));
         pasw1=(EditText)findViewById(R.id.editText9);
-        pasw1.setText(prefs.getString("password1"," "));
+        pasw1.setText(prefs.getString("password1",""));
         v2 = (View) findViewById(R.id.view2);
         final Intent intent = new Intent(this, Settings.class);
         v2.setOnTouchListener(new OnSwipeTouchListener(Extendet_settings.this) {
@@ -45,12 +45,12 @@ public class Extendet_settings extends AppCompatActivity {
                 pasw1.getText().toString().trim().length()==0) {
                     Toast.makeText(getApplicationContext(), "Fill the fields", Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(timeBetweenSending.getText().toString()) >= 5) {
-                        if(Integer.parseInt(timeBetweenSending.getText().toString().trim())<60){
-                            Toast.makeText(getApplicationContext(), "Time between sending must be higher than 60", Toast.LENGTH_SHORT).show();
+                        if(Integer.parseInt(timeBetweenSending.getText().toString().trim())<10){
+                            Toast.makeText(getApplicationContext(), "Time between sending must be higher than 10", Toast.LENGTH_SHORT).show();
                             return;
                         }else
-                        if(Integer.parseInt(timeBetweenSending.getText().toString().trim())>6000){
-                            Toast.makeText(getApplicationContext(), "Time between sending must be lower than 6000", Toast.LENGTH_SHORT).show();
+                        if(Integer.parseInt(timeBetweenSending.getText().toString().trim())>1000){
+                            Toast.makeText(getApplicationContext(), "Time between sending must be lower than 1000", Toast.LENGTH_SHORT).show();
                             return;
                         }else
                     Log.i("lol", timeBetweenSending.getText().toString());

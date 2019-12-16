@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:scaleType="fitXY"
-        android:src="@drawable/gradient_texture_color_129394_3840x2160"/>
+        android:src="@drawable/background" />
     <TextView
         android:id="@+id/textView"
         android:layout_width="266dp"

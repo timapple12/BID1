@@ -27,7 +27,8 @@ public class Password2 extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password2);
         pasw=(EditText)findViewById(R.id.pasw2);
@@ -39,7 +40,7 @@ public class Password2 extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 ++kostyl;
                 if(kostyl==2) {
-                    Toast.makeText(getApplicationContext(), "Text", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Password sent on "+prefs.getString("mail",null).trim(), Toast.LENGTH_SHORT).show();
                     sendEmail();
                     kostyl=0;
                 }
@@ -60,7 +61,7 @@ public class Password2 extends AppCompatActivity {
     public void onButton(View v){
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
-        if(pasw.getText().toString().equals( prefs.getString("password1"," "))){
+        if(pasw.getText().toString().equals( prefs.getString("password1",""))){
             Intent intent = new Intent(this, Settings.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -74,8 +75,8 @@ public class Password2 extends AppCompatActivity {
 
 
         String email =prefs.getString("mail",null).trim();
-        String subject = "Your parent's password".trim();
-        String message = prefs.getString("password1",null).trim();
+        String subject = "Someone wanna  enter to settings".trim();
+        String message = "Parent's password\n"+prefs.getString("password1","").trim();
 
         SendMail sm = new SendMail(this, email, subject, message);
         sm.execute();

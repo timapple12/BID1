@@ -19,7 +19,7 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(Integer.parseInt(prefs.getString("power","1"))*1200);
+                    Thread.sleep(Integer.parseInt(prefs.getString("power","1"))*2200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -28,7 +28,7 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
         })).start();
             if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
                 ++counter;
-                editor.putString("count",Integer.toString(counter));
+                editor.putString("count1",Integer.toString(counter));
                 editor.apply();
                 System.out.println(counter);
                 wasScreenOn = false;
@@ -39,6 +39,13 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
             }
             if (counter ==prefs.getInt("power1",0)) {
                 System.out.println("powerAct");
+
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 counter=0;
 
 

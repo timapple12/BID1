@@ -53,8 +53,10 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
     public MyService() {
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+    public void onCreate() {
         final SharedPreferences prefs = this.getSharedPreferences(
                 "com.example.bid", Context.MODE_PRIVATE);
         System.out.println(prefs.getString("latitude","location"));
@@ -98,13 +100,6 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         }else if(prefs.getBoolean("r",true)==false){
             stopGps();
         }
-        return START_STICKY;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
-    @Override
-    public void onCreate() {
-
         super.onCreate();
 
     }
@@ -135,7 +130,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                         latitude1=Double.parseDouble(prefs.getString("latitude",null));
                         longitude1=Double.parseDouble(prefs.getString("longitude",null));
                     double angular_distance;
-                    angular_distance=(0.88)*1000*111.2 * Math.sqrt( (longitude1 - prefs1.getFloat("longitude2",0))*
+                    angular_distance=(0.89)*1000*111.2 * Math.sqrt( (longitude1 - prefs1.getFloat("longitude2",0))*
                             (longitude1 - prefs1.getFloat("longitude2",0)) + (latitude1-prefs1.getFloat("latitude2",0))*
                             Math.cos(Math.PI*longitude1/180)*(latitude1-prefs1.getFloat("latitude2",0))*Math.cos(Math.PI*longitude1/180));
                     System.out.println(angular_distance);
@@ -144,6 +139,8 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                         if (angular_distance > prefs.getFloat("spinn", 0)) {
                             System.out.println("has been went out");
                             sendEmail2();
+                            sendSMS(prefs1.getString("numb",null),"has been went out");
+
                         }
                     }
                     try {
@@ -159,19 +156,20 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             public void run() {
                 while (true) {
                     try {
+
+                        if(Integer.parseInt(prefs1.getString("count1","0"))==Integer.parseInt(prefs1.getString("power","6"))){
+                            System.out.println("power dsnt wrk");
+                            handlerList.postDelayed(sendEmail_inThread, 1);
+                            editor.putString("count1","0");
+                           editor.apply();
+                        }
                         if(prefs.getBoolean("r",true)==true){
                             startGps();
                         }else if(prefs.getBoolean("r",true)==false){
                             stopGps();
                         }
-                        if(Integer.parseInt(prefs1.getString("count",null))==Integer.parseInt(prefs1.getString("power",null))){
-                            handlerList.postDelayed(sendEmail_inThread, 1);
-                            editor.putString("count","0");
-                           editor.apply();
-                        }
 
-
-                        TimeUnit.MILLISECONDS.sleep(500);
+                       // TimeUnit.MILLISECONDS.sleep(300);
 
                     } catch (Exception e) {
                     }
@@ -242,8 +240,13 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
 
         String email =prefs.getString("mail",null).trim();
         String subject = "Your child have been leaved the zone".trim();
-        String message = "Your child have been leaved the zone".trim();
 
+        String message = "Your child have been leaved the zone".trim();
+        message += "\n" + "coordinates: " + prefs.getString("latitude", null) + "  "
+                + prefs.getString("longitude", null)
+                + "\n" + "https://www.google.com/maps/place/" + prefs.getString("latitude", null)
+                + "N" + prefs.getString("longitude", null)
+                + "E";
         SendMail sm = new SendMail(this, email, subject, message);
         sm.execute();
 

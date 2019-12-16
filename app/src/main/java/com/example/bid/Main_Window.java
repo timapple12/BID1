@@ -28,19 +28,20 @@ public class Main_Window extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*if(prefs1.getString("password","111111").trim().length()==6||
-                prefs1.getString("password1","111111").trim().length()==6||
-                Integer.parseInt(prefs1.getString("volume","0").trim())<=5||
-                Integer.parseInt(prefs1.getString("power","0").trim())<=5||
-                Integer.parseInt(prefs1.getString("numb","0").trim())<=5||
-                prefs1.getString("mail","111111").trim().length()==6||
-                prefs1.getString("mail_text","111111").trim().length()==6){
+        prefs1 = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        if(prefs1.getString("password","").trim().length()==0||
+                prefs1.getString("password1","").trim().length()==0||
+                Integer.parseInt(prefs1.getString("volume","0").trim())<5||
+                Integer.parseInt(prefs1.getString("power","0").trim())<5||
+                Integer.parseInt(prefs1.getString("numb","0").trim())<5||
+                prefs1.getString("mail","").trim().length()==0||
+                prefs1.getString("mail_text","").trim().length()==0){
             Toast.makeText(getApplicationContext(),"Fill all fields to correct work",Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this,Settings.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        }*/
-        prefs1 = this.getSharedPreferences(
-                "com.example.bid", Context.MODE_PRIVATE);
+        }
+
 
         super.onCreate(savedInstanceState);
 
