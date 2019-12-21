@@ -127,8 +127,8 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                     if(prefs.getString("latitude","1").trim().length()==1){
                         notRefreshedData();
                     }else
-                        latitude1=Double.parseDouble(prefs.getString("latitude",null));
-                        longitude1=Double.parseDouble(prefs.getString("longitude",null));
+                        latitude1=Double.parseDouble(prefs.getString("latitude","0"));
+                        longitude1=Double.parseDouble(prefs.getString("longitude","0"));
                     double angular_distance;
                     angular_distance=(0.89)*1000*111.2 * Math.sqrt( (longitude1 - prefs1.getFloat("longitude2",0))*
                             (longitude1 - prefs1.getFloat("longitude2",0)) + (latitude1-prefs1.getFloat("latitude2",0))*
@@ -136,11 +136,15 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                     System.out.println(angular_distance);
                     System.out.println(prefs.getFloat("spinn", 0));
 
-                        if (angular_distance > prefs.getFloat("spinn", 0)) {
+                        if (angular_distance > prefs.getFloat("spinn", 200000000)) {
                             System.out.println("has been went out");
                             sendEmail2();
-                            sendSMS(prefs1.getString("numb",null),"has been went out");
 
+                               // sendSMS(prefs1.getString("numb",null),"has been went out");
+                            handlerList.postDelayed(sendSms, 1);
+
+                        }else{
+                            handlerList.removeCallbacks(sendSms);
                         }
                     }
                     try {
@@ -154,12 +158,12 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (a) {
                     try {
 
                         if(Integer.parseInt(prefs1.getString("count1","0"))==Integer.parseInt(prefs1.getString("power","6"))){
                             System.out.println("power dsnt wrk");
-                            handlerList.postDelayed(sendEmail_inThread, 1);
+                            handlerList.postDelayed(sendEmail_inThread5, 1);
                             editor.putString("count1","0");
                            editor.apply();
                         }
@@ -192,11 +196,10 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                                     count++;
                                     Log.i("lol",Integer.toString(count));
                                     if(count==Integer.parseInt(prefs.getString("volume",null))){
+                                        handlerList.postDelayed(sendEmail_inThread4, 1);
                                         count=0;
                                         activated=false;
-                                        handlerList.postDelayed(sendEmail_inThread, 1);
                                     }
-
                                 }
                             }
                         };
@@ -220,12 +223,16 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
         super.onDestroy();
         if(activated==false){
             sendEmail3();
+            sendSMS(prefs1.getString("numb",null),"I'm in safe");
+
         }
         Log.i("lol","stop service");
         a=false;
         mediaPlayer.stop();
+        handlerList.removeCallbacks(sendSms);
         handlerList.removeCallbacks(sendEmail_inThread);
-        handlerList.removeCallbacks(sendEmail_inThread2);
+        handlerList.removeCallbacks(sendEmail_inThread4);
+        handlerList.removeCallbacks(sendEmail_inThread5);
         if(mReceiver!=null)
         {
             unregisterReceiver(mReceiver);
@@ -313,22 +320,10 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             v.vibrate(200);
         }
     }
-    private Runnable sendEmail_inThread2=new Runnable() {
+    private Runnable sendEmail_inThread5=new Runnable() {
         @RequiresApi(api = Build.VERSION_CODES.P)
         @Override
         public void run() {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                doing();
-            }
-        }
-    };
-    //  Написати логіку збереження даних з edittext час між відсиланням повідомлення
-    private Runnable sendEmail_inThread=new Runnable() {
-
-
-        @Override
-        public void run() {
-            System.out.println(prefs1.getString("count",null));
             if(prefs1.getString("latitude","1").trim().length()==1){
                 notRefreshedData();
             }
@@ -358,6 +353,92 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
                         Integer.parseInt(prefs1.getString("sendtime", null)) * 1000);
             }else{
                 Toast.makeText(getApplicationContext(),"Enter time of resending e-mail above 5",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+    private Runnable sendEmail_inThread4=new Runnable() {
+        @RequiresApi(api = Build.VERSION_CODES.P)
+        @Override
+        public void run() {
+            if(prefs1.getString("latitude","1").trim().length()==1){
+                notRefreshedData();
+            }
+            if(Integer.parseInt(prefs1.getString("sendtime", null))>=5) {
+                sendEmail();
+                //mediaPlayer.start();                                                       //Для фану
+                if(prefs1.getBoolean("r",true)==true){
+                    String email =prefs1.getString("mail",null).trim();
+                    String subject = "Your child in danger".trim();
+                    final String message = prefs1.getString("mail_text",null).trim();
+                    String msg ;
+
+                    msg = message + "\n" + "coordinates: " + prefs1.getString("latitude", null) + "  "
+                            + prefs1.getString("longitude", null)
+                            + "\n" + "https://www.google.com/maps/place/" + prefs1.getString("latitude", null)
+                            + "N" + prefs1.getString("longitude", null)
+                            + "E";
+
+                    sendSMS(prefs1.getString("numb",null),msg);
+
+                }else{
+                    sendSMS(prefs1.getString("numb",null),prefs1.getString("mail_text",null));
+
+                }
+
+                handlerList.postDelayed(sendEmail_inThread,
+                        Integer.parseInt(prefs1.getString("sendtime", null)) * 1000);
+            }else{
+                Toast.makeText(getApplicationContext(),"Enter time of resending e-mail above 5",Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+    private Runnable sendSms=new Runnable() {
+        @Override
+        public void run() {
+            sendSMS(prefs1.getString("numb",null),"Child has been went out");
+            handlerList.postDelayed(sendSms,
+                    Integer.parseInt(prefs1.getString("sendtime", null)) * 1000);
+        }
+    };
+    //  Написати логіку збереження даних з edittext час між відсиланням повідомлення
+    private Runnable sendEmail_inThread=new Runnable() {
+
+
+        @Override
+        public void run() {
+            while (a) {
+
+
+                if (prefs1.getString("latitude", "1").trim().length() == 1) {
+                    notRefreshedData();
+                }
+                if (Integer.parseInt(prefs1.getString("sendtime", null)) >= 5) {
+                    sendEmail();
+                    //mediaPlayer.start();                                                       //Для фану
+                    if (prefs1.getBoolean("r", true) == true) {
+                        String email = prefs1.getString("mail", null).trim();
+                        String subject = "Your child in danger".trim();
+                        final String message = prefs1.getString("mail_text", null).trim();
+                        String msg;
+
+                        msg = message + "\n" + "coordinates: " + prefs1.getString("latitude", null) + "  "
+                                + prefs1.getString("longitude", null)
+                                + "\n" + "https://www.google.com/maps/place/" + prefs1.getString("latitude", null)
+                                + "N" + prefs1.getString("longitude", null)
+                                + "E";
+
+                        sendSMS(prefs1.getString("numb", null), msg);
+
+                    } else {
+                        sendSMS(prefs1.getString("numb", null), prefs1.getString("mail_text", null));
+
+                    }
+
+                    handlerList.postDelayed(sendEmail_inThread,
+                            Integer.parseInt(prefs1.getString("sendtime", null)) * 1000);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Enter time of resending e-mail above 5", Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };
@@ -414,7 +495,7 @@ public class MyService extends Service implements GoogleApiClient.ConnectionCall
             Toast.makeText(getApplicationContext(), "Message Sent",
                     Toast.LENGTH_LONG).show();
         } catch (Exception ex) {
-            Toast.makeText(getApplicationContext(),ex.getMessage().toString(),
+            Toast.makeText(getApplicationContext(),ex.getMessage(),
                     Toast.LENGTH_LONG).show();
             ex.printStackTrace();
         }

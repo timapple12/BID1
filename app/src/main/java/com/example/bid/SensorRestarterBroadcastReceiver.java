@@ -35,6 +35,8 @@ public class SensorRestarterBroadcastReceiver  extends BroadcastReceiver  {
 
             } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
                 ++counter;
+                editor.putString("count1",Integer.toString(counter));
+                editor.apply();
                 System.out.println(counter);
             }
             if (counter ==prefs.getInt("power1",0)) {

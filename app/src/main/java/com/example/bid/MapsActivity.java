@@ -22,6 +22,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,12 +31,14 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
     public SharedPreferences prefs;
     private LocationListener listener;
     private LocationManager locationManager;
-
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 100;
 
@@ -142,6 +146,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final Intent intent = new Intent(this, Extendet_settings.class);
 
         if(prefs.getFloat("latitude2",0)==0){
+            notRefreshedData();
             latlng= new LatLng(Float.parseFloat(prefs.getString("latitude","0")),
                     Float.parseFloat(prefs.getString("longitude","0")));
         }else{
@@ -207,6 +212,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
-
+    protected void notRefreshedData(){
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        final SharedPreferences prefs = this.getSharedPreferences(
+                "com.example.bid", Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = prefs.edit();
+        Task<Location> task=fusedLocationProviderClient.getLastLocation();
+        task.addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if(location!=null){
+                    editor.putString("latitude",Double.toString(location.getLatitude()));
+                    editor.putString("longitude",Double.toString(location.getLongitude()));
+                    editor.apply();
+                }
+            }
+        });
+    }
 }
 

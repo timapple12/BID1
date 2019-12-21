@@ -53,15 +53,15 @@ public class Settings extends AppCompatActivity {
         volumeAct=(EditText)findViewById(R.id.editText8);
         r.setChecked(prefs.getBoolean("r",true));
         r1.setChecked(prefs.getBoolean("r1",true));
-        volumeAct.setText(prefs.getString("volume",null));
+        volumeAct.setText(prefs.getString("volume",""));
 
-        powerAct.setText(prefs.getString("power",null));
-        phoneNumb.setText(prefs.getString("numb",null));
+        powerAct.setText(prefs.getString("power",""));
+        phoneNumb.setText(prefs.getString("numb",""));
 
 
 
-        mail.setText(prefs.getString("mail",null));
-        mail_text.setText(prefs.getString("mail_text",null));
+        mail.setText(prefs.getString("mail",""));
+        mail_text.setText(prefs.getString("mail_text",""));
 
         v.setOnTouchListener(new OnSwipeTouchListener(Settings.this){
                 public void onSwipeTop() {

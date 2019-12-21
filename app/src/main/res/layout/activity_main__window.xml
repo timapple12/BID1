@@ -9,15 +9,15 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="376dp"
-        android:layout_height="56dp"
+        android:layout_width="375dp"
+        android:layout_height="61dp"
         android:accessibilityLiveRegion="@android:integer/config_mediumAnimTime"
         android:background="@drawable/filedsset"
         android:orientation="horizontal"
         android:text=" SECURITY MODE"
         android:textAlignment="center"
         android:textColor="@color/text"
-        android:textSize="45sp"
+        android:textSize="43sp"
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
